@@ -1,0 +1,54 @@
+:host{
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  //padding: 20px 28px;
+  height: 100%;
+  width: 300px;
+  padding: 20px 0 20px 0;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  //position: fixed;
+}
+
+.small-logo{
+  width: 61px;
+  height: 74px;
+  margin: 0 28px;
+}
+
+
+.pages{
+  padding: 0 12px;
+}
+
+.page{
+  border: none;
+  display: flex;
+  gap: 12px;
+  padding: 8px 16px;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover{
+    color: var(--primary-color);
+    background-color: var(--hovered-dark-color);
+  }
+}
+
+.page__label{
+  width: 700px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.page-chat__count-chats{
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  //display: flex;
+  padding: 1px 6px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}

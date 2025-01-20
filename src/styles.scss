@@ -1,1 +1,64 @@
-/* You can add global styles to this file, and also import other style files */
+@use "fonts";
+@use "margins";
+
+:root {
+  --hovered-dark-color: #161616;
+  --dark-color: #000000;
+  --light-color: #FFFFFF;
+  --primary-color: #AE7AFF;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: "JetBrains Mono", sans-serif;
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  background-image: url(/assets/img/background.png);
+  background-size: 100% 100%;
+}
+
+.skill-tag{
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--light-color);
+  font-size: 12px;
+  margin: 2px;
+  font-weight: 700;
+}
+
+.btn{
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  padding: 10px 20px;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.h1{
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 56px;
+}
+
+.h6{
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24px;
+}
+
+.subtitle{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
