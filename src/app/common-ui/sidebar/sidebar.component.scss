@@ -1,14 +1,22 @@
 :host{
-  background-color: var(--dark-color);
-  color: var(--light-color);
-  //padding: 20px 28px;
-  height: 100%;
-  width: 300px;
-  padding: 20px 0 20px 0;
-  gap: 20px;
   display: flex;
   flex-direction: column;
-  //position: fixed;
+  justify-content: space-between;
+  width: 300px;
+  height: 100%;
+  position: fixed;
+  background-color: var(--dark-color);
+  padding: 20px 0 20px 0;
+  gap: 20px;
+}
+
+.wrapper-main{
+  color: var(--light-color);
+  //padding: 20px 28px;
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+  -webkit-user-select: none;
 }
 
 .small-logo{
@@ -20,6 +28,9 @@
 
 .pages{
   padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .page{
@@ -29,11 +40,19 @@
   padding: 8px 16px;
   align-items: center;
   cursor: pointer;
+  border-radius: 2px;
+  color: var(--light-color);
+  text-decoration: none;
 
   &:hover{
     color: var(--primary-color);
     background-color: var(--hovered-dark-color);
   }
+}
+
+.page__active{
+  color: var(--primary-color);
+  background-color: var(--hovered-dark-color);
 }
 
 .page__label{
@@ -52,3 +71,62 @@
   line-height: 16px;
   font-weight: 700;
 }
+
+.subscribers{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 28px;
+}
+
+.subscribers__title{
+  color: var(--light-gray);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.profile__img{
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+}
+
+.profile__name{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.subscribers__title__purple{
+  color: var(--primary-color);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-sec{
+  border-radius: 2px;
+  display: grid;
+  grid-template-columns: 32px 1fr 14px;
+  margin: 0 12px;
+  grid-gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 16px;
+  justify-items: start;
+  width: calc(100% - 24px);
+
+  &:hover{
+    color: var(--primary-color);
+    background-color: var(--hovered-dark-color);
+    .settings-btn{
+      color: var(--primary-color);
+    }
+  }
+}
+
+//.settings-btn{
+//  color: var(--light-color);
+//}

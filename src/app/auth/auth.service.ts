@@ -72,6 +72,7 @@ export class AuthService {
 
   logout(){
     this.cookieService.deleteAll();
+    this.router.navigate(['/login']);
     return this.http.post<string>(`${this.baseApiUrl}logout`,{})
     .pipe(
       catchError(err=>{

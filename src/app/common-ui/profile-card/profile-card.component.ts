@@ -1,27 +1,21 @@
-import {Component, inject} from '@angular/core';
-import {ProfileService} from '../../data/services/profile.service';
+import {Component, Input} from '@angular/core';
 import {NgForOf} from '@angular/common';
 import {Profile} from '../../data/interfaces/profile';
 import {ImgUrlPipe} from '../../helpers/pipes/img-url.pipe';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-profile-card',
   imports: [
     NgForOf,
-    ImgUrlPipe
+    ImgUrlPipe,
+    RouterLink
   ],
   templateUrl: './profile-card.component.html',
   standalone: true,
   styleUrl: './profile-card.component.scss'
 })
 export class ProfileCardComponent {
+  @Input() profile!: Profile
 
-  profileService = inject(ProfileService);
-  profiles: Profile[] = []
-
-  constructor() {
-    this.profileService.getTestAccounts().subscribe(
-      data => this.profiles = data
-    )
-  }
 }

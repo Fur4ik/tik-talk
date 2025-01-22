@@ -1,43 +1,11 @@
-.profiles{
+:host{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wrapper{
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.profile-card{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  border: 1px solid var(--light-color);
-  padding: 32px 24px;
-}
-
-.avatar-name{
-  display: grid;
-  grid-template-columns: 70px 1fr;
-  gap: 20px;
-  //align-items: center;
-}
-
-.profile-card__avatar{
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.profile-card__description{
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-}
-
-.profile-card__name{
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.profile-card__action-btns{
-  display: inline-block;
 }

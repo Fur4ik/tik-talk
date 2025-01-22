@@ -5,6 +5,7 @@
   --hovered-dark-color: #161616;
   --dark-color: #000000;
   --light-color: #FFFFFF;
+  --light-gray: #FFFFFFBF;
   --primary-color: #AE7AFF;
 }
 
@@ -22,6 +23,14 @@ body{
   color: var(--light-color);
   background-image: url(/assets/img/background.png);
   background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+button{
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--light-color);
 }
 
 .skill-tag{
@@ -32,17 +41,37 @@ body{
   font-size: 12px;
   margin: 2px;
   font-weight: 700;
+  height: 24px;
 }
 
 .btn{
-  border: none;
   background-color: var(--primary-color);
   color: var(--dark-color);
   padding: 10px 20px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 14px;
   line-height: 24px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  border-radius: 2px;
+  border: 1px solid var(--dark-color);
+
+  &:hover{
+    border: 1px solid var(--light-color);
+  }
+}
+
+.btn-black{
+  background: none;
+  color: var(--light-color);
+  border: 1px solid var(--light-color);
+
+  &:hover{
+    border: 1px solid var(--primary-color);
+  }
 }
 
 .h1{
@@ -51,14 +80,60 @@ body{
   line-height: 56px;
 }
 
+.h4{
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 32px;
+}
+
 .h6{
   font-size: 18px;
   font-weight: 800;
   line-height: 24px;
 }
 
+.regular-text{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.medium-text{
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
 .subtitle{
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
+}
+
+
+.tt-form-label{
+  color: #FFFFFFBF;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tt-form-input{
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  color: var(--light-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  padding: 12px 0;
+
+  &:focus{
+    outline: none;
+  }
+}
+
+.tt-form-textarea{
+  resize: none;
+  height: 84px;
 }
