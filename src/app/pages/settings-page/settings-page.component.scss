@@ -1,0 +1,53 @@
+:host{
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  grid-gap: 48px;
+}
+
+.profile-form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  background-color: var(--dark-color);
+  border-radius: 2px;
+  border: 1px solid var(--light-color);
+  min-height: calc(100dvh - 48px);
+  justify-content: space-between;
+}
+
+.profile-form__main{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-form_first-sting{
+  display: flex;
+  gap: 20px;
+}
+
+.profile-btn{
+  display: flex;
+  justify-content: space-between;
+  align-content: end;
+}
+
+.profile-btn__right-side{
+  display: flex;
+  gap: 20px;
+}
+
+.profile-btn__left-side .btn-black{
+    padding: 14px;
+}
+
+
+
+//@media (max-width: 860px) {
+//  :host{
+//    display: grid;
+//    grid-template-columns: 1fr;
+//  }
+//}
+
