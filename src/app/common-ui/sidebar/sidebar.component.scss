@@ -45,7 +45,7 @@
   text-decoration: none;
 
   &:hover{
-    color: var(--primary-color);
+    //color: var(--primary-color);
     background-color: var(--hovered-dark-color);
   }
 }
@@ -119,7 +119,7 @@
   width: calc(100% - 24px);
 
   &:hover{
-    color: var(--primary-color);
+    //color: var(--primary-color);
     background-color: var(--hovered-dark-color);
     .settings-btn{
       color: var(--primary-color);
@@ -127,6 +127,15 @@
   }
 }
 
-//.settings-btn{
-//  color: var(--light-color);
-//}
+
+
+.sidebar__popup-btn{
+  border-radius: 2px;
+  border: 2px solid var(--light-color);
+  margin: 21px;
+  padding: 16px 12px;
+  position: absolute;
+  bottom: 73px;
+  width: 258px;
+  background-color: var(--dark-color);
+}

@@ -1,0 +1,10 @@
+    <div class="profile-header__info">
+
+      <img class="profile-header__img"
+           [src]="profile.avatarUrl | imgUrl"
+      >
+      <div class="profile-header__name">
+        <span class="h4">{{ profile.firstName }} {{ profile.lastName }}</span>
+        <span class="regular-text">{{ profile.username }}</span>
+      </div>
+    </div>

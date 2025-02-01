@@ -4,15 +4,15 @@
   gap: 48px;
 }
 
-
 .profile-header{
   display: grid;
-  grid-template-columns:1fr 320px;
+  grid-template-columns:1fr minmax(min-content, 320px);
   align-items: center;
   grid-gap: 20px;
   .btn{
     display: inline-flex;
     width: 174px;
+    justify-content: center;
   }
 }
 
@@ -24,7 +24,6 @@
 
 .profile-header__name{
   display: flex;
-  //flex-direction: column;
   align-items: center;
   gap: 24px;
 }
@@ -46,6 +45,16 @@
   flex-direction: column;
   gap: 32px;
   padding: 0 24px;
+
+
+  right: 24px;
+  width: 340px;
+
+}
+
+.fixed-info{
+  position: fixed;
+  top: 24px;
 }
 
 .profile-info__sec{
@@ -64,7 +73,6 @@
   border: none;
   background-color: var(--primary-color);
   color: var(--dark-color);
-  //display: flex;
   padding: 1px 6px;
   font-size: 12px;
   line-height: 16px;

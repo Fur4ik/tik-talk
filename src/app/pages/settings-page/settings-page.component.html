@@ -1,5 +1,23 @@
-<div class="header">
+<div>
+  @if (profile$ | async; as profile) {
+    <div class="profile-info-wrapper">
+      <app-profile-info [profile]="profile"/>
+      <hr>
 
+      <div class="profile-info__sec">
+        <span class="h6">Навыки</span>
+        <div class="profile-info__skill-tag">
+          <span class="skill-tag" *ngFor="let stack of profile.stack">{{ stack }}</span>
+        </div>
+      </div>
+
+      <div class="profile-info__sec">
+        <span class="h6">О себе</span>
+        <span class="medium-text">{{ profile.description }}</span>
+      </div>
+
+    </div>
+  }
 </div>
 
 <form class="profile-form" [formGroup]="form">

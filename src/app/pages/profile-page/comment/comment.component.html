@@ -1,0 +1,10 @@
+  <img class="post__profile-img" src="{{comment.author.avatarUrl | imgUrl}}" alt="">
+  <div class="post__comm-main">
+    <div class="post__comm-main-title">
+      <span class="post__top-time">{{comment.author.username}}</span>
+      <span class="post__top-time">{{comment.updatedAt | timeAgo}}</span>
+    </div>
+    <span class="medium-text">
+      {{comment.text}}
+    </span>
+  </div>

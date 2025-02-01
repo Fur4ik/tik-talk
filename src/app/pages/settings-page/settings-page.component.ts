@@ -5,12 +5,18 @@ import {AuthService} from '../../auth/auth.service';
 import {firstValueFrom} from 'rxjs';
 import {AvatarUploadComponent} from './avatar-upload/avatar-upload.component';
 import {Router} from '@angular/router';
+import {toObservable} from '@angular/core/rxjs-interop';
+import {AsyncPipe, NgForOf} from '@angular/common';
+import {ProfileInfoComponent} from '../../common-ui/profile-info/profile-info.component';
 
 @Component({
   selector: 'app-settings-page',
   imports: [
     ReactiveFormsModule,
-    AvatarUploadComponent
+    AvatarUploadComponent,
+    AsyncPipe,
+    ProfileInfoComponent,
+    NgForOf
   ],
   templateUrl: './settings-page.component.html',
   standalone: true,
@@ -20,6 +26,8 @@ export class SettingsPageComponent {
   profileService = inject(ProfileService);
   authService = inject(AuthService);
   router = inject(Router);
+
+  profile$ = toObservable(this.profileService.me)
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
 
@@ -62,9 +70,6 @@ export class SettingsPageComponent {
         stack: this.splitStack(this.form.value.stack)
       })
     )
-
-    this.router.navigate(['/profile/me']);
-
   }
 
   splitStack(stack: string | string[] | null | undefined): string[] {

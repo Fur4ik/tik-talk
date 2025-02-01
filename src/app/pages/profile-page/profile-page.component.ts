@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, HostListener, inject, signal} from '@angular/core';
 import {ProfileService} from '../../data/services/profile.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -6,6 +6,7 @@ import {switchMap} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ImgUrlPipe} from '../../helpers/pipes/img-url.pipe';
 import {PostFeedComponent} from './post-feed/post-feed.component';
+import {ProfileInfoComponent} from '../../common-ui/profile-info/profile-info.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -15,7 +16,8 @@ import {PostFeedComponent} from './post-feed/post-feed.component';
     ImgUrlPipe,
     NgForOf,
     PostFeedComponent,
-    RouterLink
+    RouterLink,
+    ProfileInfoComponent
   ],
   templateUrl: './profile-page.component.html',
   standalone: true,
@@ -29,6 +31,8 @@ export class ProfilePageComponent {
   me$ = toObservable(this.profileService.me)
 
   isMyPage = signal<boolean>(false);
+  isScrollThreshold = signal<boolean>(false);
+
 
   profile$ = this.route.params
     .pipe(
@@ -44,4 +48,18 @@ export class ProfilePageComponent {
 
   subscribers$ = this.profileService.getSubscribersShortList(6)
   protected readonly toString = toString;
+
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    const scrollThreshold = 160
+
+    if(window.scrollY > scrollThreshold) {
+      this.isScrollThreshold.set(true);
+    } else {
+      this.isScrollThreshold.set(false);
+    }
+  }
+
+
 }

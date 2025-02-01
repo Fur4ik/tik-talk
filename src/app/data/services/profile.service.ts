@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Profile} from '../interfaces/profile';
 import {Pageble} from '../interfaces/pageble.interface';
 import {map, take, tap} from 'rxjs';
+import {Post} from '../interfaces/post.interface';
 
 @Injectable({
   providedIn: 'root'
