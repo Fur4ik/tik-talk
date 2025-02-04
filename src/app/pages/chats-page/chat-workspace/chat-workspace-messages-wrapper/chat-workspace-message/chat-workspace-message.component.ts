@@ -1,6 +1,7 @@
 import {Component, HostBinding, input} from '@angular/core';
 import {Message} from '../../../../../data/interfaces/message.interface';
 import {TimeAgoPipe} from '../../../../../helpers/pipes/time-ago.pipe';
+import {PopupMessageComponent} from '../popup-message/popup-message.component';
 
 @Component({
   selector: 'app-chat-workspace-message',
@@ -18,4 +19,6 @@ export class ChatWorkspaceMessageComponent {
   get isMine(){
     return this.message().isMine
   }
+
+
 }

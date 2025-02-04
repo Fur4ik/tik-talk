@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -16,15 +15,17 @@ import {firstValueFrom, of, switchMap, tap, timer} from 'rxjs';
 import {MessageService} from '../../../../data/services/message.service';
 import {Chat} from '../../../../data/interfaces/chat.interface';
 import {ChatService} from '../../../../data/services/chat.service';
-import {toObservable} from '@angular/core/rxjs-interop';
-import {AsyncPipe} from '@angular/common';
-import {log} from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import {PopupDirective} from '../../../../common-ui/directives/popup.directive';
+import {PopupMessageComponent} from './popup-message/popup-message.component';
+import {Message} from '../../../../data/interfaces/message.interface';
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
   imports: [
     ChatWorkspaceMessageComponent,
     MessageInputComponent,
+    PopupMessageComponent,
+    PopupDirective,
   ],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   standalone: true,
@@ -34,6 +35,8 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
   messageService = inject(MessageService);
   chatService = inject(ChatService);
   r2 = inject(Renderer2)
+
+  popupMessage = signal<boolean>(false)
 
   @ViewChild('mainWrapper') mainWrapper!: ElementRef;
   @ViewChild('inputMessage') inputMessage!: ElementRef;
@@ -54,9 +57,9 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-    timer(0,5000)
+    timer(0, 5000)
       .pipe(
-        switchMap(()=>this.chatService.getChat(this.chat().id))
+        switchMap(() => this.chatService.getChat(this.chat().id))
       )
       .subscribe()
   }
@@ -75,4 +78,42 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
     this.r2.setStyle(this.mainWrapper.nativeElement, 'height', `${heightWrapper}px`);
     // console.log(window.innerHeight, top, inputHeight, topInput, bottomInput);
   }
+
+
+  @ViewChild('popupMessageId') popupMessageId!: ElementRef;
+  @ViewChild('messageWrapper') messageWrapper!: ElementRef;
+
+  onRightClick(message: Message, event: MouseEvent) {
+    if (event.button === 2) {
+      event.preventDefault();
+      if (!message.isMine) return;
+
+      this.popupMessage.set(true)
+
+      const {top, left, width, height} = this.messageWrapper.nativeElement.getBoundingClientRect();
+      const mainWrapperHeight = this.mainWrapper.nativeElement.getBoundingClientRect().height;
+
+      let x = event.clientX - left;
+      let y = event.clientY - top;
+
+      if (width - x < 100) x -= 100
+      if (mainWrapperHeight > height && y > 50) y -= 50
+
+      this.r2.setStyle(this.popupMessageId.nativeElement, 'top', `${y}px`);
+      this.r2.setStyle(this.popupMessageId.nativeElement, 'left', `${x}px`);
+
+      this.currentMessageId = message.id;
+    }
+  }
+
+  currentMessageId = 0;
+
+  onPopupMessage(type: string) {
+    this.popupMessage.set(false)
+    if (type === 'delete')
+      console.log('delete ' + this.currentMessageId)
+    if (type === 'edit')
+      console.log('edit ' + this.currentMessageId)
+  }
+
 }
