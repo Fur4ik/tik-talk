@@ -1,0 +1,23 @@
+
+.popup-for-message{
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  border-radius: 10px;
+  background-color: var(--hovered-dark-color);
+  gap: 2px;
+  padding: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.pop_btn{
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: var(--hovered-dark-color);
+  &:hover{
+    opacity: 0.4;
+  }
+}
