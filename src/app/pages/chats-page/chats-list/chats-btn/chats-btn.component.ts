@@ -10,8 +10,6 @@ import {TruncateTextDirective} from '../../../../common-ui/directives/truncate-t
   imports: [
     ImgUrlPipe,
     TimeAgoPipe,
-    TruncateTextPipe,
-    TruncateTextDirective
   ],
   templateUrl: './chats-btn.component.html',
   standalone: true,

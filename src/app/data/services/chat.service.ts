@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Chat, MyChats} from '../interfaces/chat.interface';
-import {map, take, tap} from 'rxjs';
+import {map, take, tap, timer} from 'rxjs';
 import {ProfileService} from './profile.service';
 import {Message} from '../interfaces/message.interface';
 

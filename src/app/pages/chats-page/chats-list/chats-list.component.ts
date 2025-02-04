@@ -4,7 +4,7 @@ import {ChatService} from '../../../data/services/chat.service';
 import {AsyncPipe} from '@angular/common';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {map, startWith, switchMap} from 'rxjs';
+import {debounceTime, map, startWith, switchMap, takeUntil, tap, timer} from 'rxjs';
 
 @Component({
   selector: 'app-chats-list',
@@ -23,21 +23,22 @@ export class ChatsListComponent {
 
   inputValueLength = 0
 
-  chats$ = this.chatService.getMyChats()
+  chats$ = timer(0,5000)
     .pipe(
+      switchMap(()=> this.chatService.getMyChats()),
       switchMap(chat => {
         return this.filteredChats.valueChanges.pipe(
           startWith(''),
           map(inputValue => {
-            return chat.filter(chat =>{
-              this.inputValueLength = inputValue!.length
-              return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`.toLowerCase().includes(inputValue!.toLowerCase()) ?? ''
-              }
-            )
+            return chat.filter(chat => {
+              this.inputValueLength = inputValue!.length;
+              return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
+                .toLowerCase()
+                .includes(inputValue!.toLowerCase() ?? '')
+            })
           })
         )
-        }
-      )
+      })
     )
 
   onClearFilter(){
