@@ -34,7 +34,9 @@
       <div class="page__label">
         Чаты
       </div>
-      <div class="page-chat__count-chats">28</div>
+      @if(unreadMessages() > 0){
+        <div class="count-chats">{{unreadMessages()}}</div>
+      }
     </a>
 
     <a class="page"
@@ -74,23 +76,35 @@
     </a>
   </div>
 
-
   <div class="subscribers">
-    <div class="subscribers__title">Подписчики</div>
+<!--    <div class="subscribers__title">Подписчики</div>-->
+    <div class="subscribers__title">Подписки</div>
 
     <div
       class="subscribers-profiles__profile"
-      *ngFor="let profile of subscribers$ | async">
-      <app-subscriber-card [profile]="profile"/>
+    >
+      @for(profile of subscriptions$| async; track profile.id){
+        <app-subscriber-card [profile]="profile"/>
+      }
     </div>
 
+<!--    <div-->
+<!--      [routerLink]="['/subscribers']"-->
+<!--      class="subscribers__title-->
+<!--      subscribers__title__purple"-->
+<!--    >-->
+<!--      <span>Все подписчики</span>-->
+<!--      <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--        <path d="M0.222657 8.44531L3.66797 5L0.222656 1.55469L1.27734 0.5L5.77734 5L1.27734 9.5L0.222657 8.44531Z"-->
+<!--              fill="currentColor"/>-->
+<!--      </svg>-->
+<!--    </div>-->
 
     <div
-      [routerLink]="['/subscribers']"
       class="subscribers__title
       subscribers__title__purple"
     >
-      <span>Все подписчики</span>
+      <span>Все подписки</span>
       <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0.222657 8.44531L3.66797 5L0.222656 1.55469L1.27734 0.5L5.77734 5L1.27734 9.5L0.222657 8.44531Z"
               fill="currentColor"/>

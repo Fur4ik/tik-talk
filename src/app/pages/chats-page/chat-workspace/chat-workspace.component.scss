@@ -1,0 +1,17 @@
+//:host{
+//  height: 100%;
+//  background-color: var(--dark-color);
+//  display: flex;
+//  flex-direction: column;
+//}
+
+:host{
+  height: 100%;
+  background-color: var(--dark-color);
+  display: grid;
+  grid-template-rows: auto 1fr min-content;
+}
+
+.message-input{
+  margin: 16px 20px;
+}

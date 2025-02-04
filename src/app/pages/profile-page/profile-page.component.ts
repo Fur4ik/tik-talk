@@ -1,20 +1,19 @@
 import {Component, HostListener, inject, signal} from '@angular/core';
 import {ProfileService} from '../../data/services/profile.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {switchMap} from 'rxjs';
+import {firstValueFrom, map, switchMap, tap} from 'rxjs';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {ImgUrlPipe} from '../../helpers/pipes/img-url.pipe';
 import {PostFeedComponent} from './post-feed/post-feed.component';
 import {ProfileInfoComponent} from '../../common-ui/profile-info/profile-info.component';
+import {ChatService} from '../../data/services/chat.service';
 
 @Component({
   selector: 'app-profile-page',
   imports: [
     AsyncPipe,
-    NgIf,
     ImgUrlPipe,
-    NgForOf,
     PostFeedComponent,
     RouterLink,
     ProfileInfoComponent
@@ -26,7 +25,9 @@ import {ProfileInfoComponent} from '../../common-ui/profile-info/profile-info.co
 
 export class ProfilePageComponent {
   profileService = inject(ProfileService);
+  chatService = inject(ChatService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
   me$ = toObservable(this.profileService.me)
 
@@ -37,11 +38,10 @@ export class ProfilePageComponent {
   profile$ = this.route.params
     .pipe(
       switchMap(({id}) => {
-        if(id === 'me') {
-          this.isMyPage.set(true)
+        this.isMyPage.set(id === 'me' || id === this.profileService.me()?.id)
+        if(id === 'me' || id === this.profileService.me()?.id) {
           return this.me$
         }
-        this.isMyPage.set(false)
         return this.profileService.getAccount(id)
       })
     )
@@ -61,5 +61,10 @@ export class ProfilePageComponent {
     }
   }
 
-
+  async openChat(profileId: number){
+    await firstValueFrom(this.chatService.postChat(profileId))
+      .then( (res) =>
+        this.router.navigate([`/chats/${res.id}`])
+      )
+  }
 }

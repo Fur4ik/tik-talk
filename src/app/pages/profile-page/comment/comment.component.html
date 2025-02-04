@@ -1,4 +1,8 @@
-  <img class="post__profile-img" src="{{comment.author.avatarUrl | imgUrl}}" alt="">
+<button
+  [routerLink]="['/profile/',comment.author.id]"
+>
+<img class="profile-img" src="{{comment.author.avatarUrl | imgUrl}}" alt="">
+</button>
   <div class="post__comm-main">
     <div class="post__comm-main-title">
       <span class="post__top-time">{{comment.author.username}}</span>

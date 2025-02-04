@@ -1,4 +1,17 @@
-<app-post-input/>
-@for (post of posts(); track post.id){
-  <app-post [post]="post"/>
+@if (isMyPageInp) {
+  <app-message-input
+    (created)="onCreatePost($event)"
+  />
 }
+
+@if (activeProfilePosts$) {
+  @for (post of activeProfilePosts$ | async; track post.id) {
+    <app-post
+      (created)="onCreateComment($event)"
+      [isMyPageInp]="isMyPageInp"
+      [post]="post"/>
+  }
+} @else {
+  <p>их нет</p>
+}
+

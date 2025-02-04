@@ -2,11 +2,13 @@
 @use "margins";
 
 :root {
+  --message-color: #404040;
   --hovered-dark-color: #161616;
   --dark-color: #000000;
   --light-color: #FFFFFF;
   --light-gray: #FFFFFFBF;
   --primary-color: #AE7AFF;
+  --light-border: 1px solid var(--light-color);
 }
 
 *,
@@ -17,23 +19,23 @@
   padding: 0;
 }
 
-body{
+body {
   font-family: "JetBrains Mono", sans-serif;
   background-color: var(--dark-color);
   color: var(--light-color);
   background-image: url(/assets/img/background.png);
-  background-size: 100% 100%;
+  background-size: cover;
   background-attachment: fixed;
 }
 
-button{
+button {
   cursor: pointer;
   border: none;
   background: none;
   color: var(--light-color);
 }
 
-.skill-tag{
+.skill-tag {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 2px;
@@ -44,7 +46,7 @@ button{
   height: 24px;
 }
 
-.btn{
+.btn {
   background-color: var(--primary-color);
   color: var(--dark-color);
   padding: 10px 20px;
@@ -59,66 +61,66 @@ button{
   border-radius: 2px;
   border: 1px solid var(--dark-color);
 
-  &:hover{
+  &:hover {
     border: 1px solid var(--light-color);
   }
 }
 
-.btn-black{
+.btn-black {
   background: none;
   color: var(--light-color);
   border: 1px solid var(--light-color);
 
-  &:hover{
+  &:hover {
     border: 1px solid var(--primary-color);
   }
 }
 
-.h1{
+.h1 {
   font-weight: 800;
   font-size: 46px;
   line-height: 56px;
 }
 
-.h4{
+.h4 {
   font-size: 24px;
   font-weight: 800;
   line-height: 32px;
 }
 
-.h6{
+.h6 {
   font-size: 18px;
   font-weight: 800;
   line-height: 24px;
 }
 
-.regular-text{
+.regular-text {
   font-size: 14px;
   font-weight: 400;
   line-height: 21px;
 }
 
-.medium-text{
+.medium-text {
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
 }
 
-.subtitle{
+.subtitle {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
 }
 
 
-.tt-form-label{
+.tt-form-label {
   color: #FFFFFFBF;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.tt-form-input{
+.tt-form-input {
   background: none;
   border: none;
   border-bottom: 1px solid var(--light-color);
@@ -128,17 +130,17 @@ button{
   line-height: 21px;
   padding: 12px 0;
 
-  &:focus{
+  &:focus {
     outline: none;
   }
 }
 
-.tt-form-textarea{
+.tt-form-textarea {
   resize: none;
   height: 84px;
 }
 
-.popup-wrapper{
+.popup-wrapper {
   position: absolute;
   display: none;
   flex-direction: column;
@@ -148,17 +150,18 @@ button{
   border: 2px solid var(--light-color);
   background-color: var(--dark-color);
 
-  &.sidebar{
+  &.sidebar {
     bottom: 73px;
     width: 258px;
     margin: 21px;
   }
-  &.post{
+
+  &.post {
     margin-left: -105px;
   }
 }
 
-.popup-btn{
+.popup-btn {
   display: flex;
   align-items: center;
   padding: 8px 16px;
@@ -172,16 +175,40 @@ button{
   box-sizing: border-box;
   gap: 8px;
 
-  &:hover{
+  &:hover {
     //color: var(--primary-color);
     background-color: var(--hovered-dark-color);
   }
 }
 
-.red-hover{
+.red-hover {
   color: red;
   opacity: 0.8;
-  &:hover{
+
+  &:hover {
     opacity: 1;
   }
+}
+
+.profile-img {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  margin-right: 6px;
+  border: 2px solid transparent;
+
+  &:hover {
+    border: 2px solid var(--primary-color);
+  }
+}
+
+.count-chats{
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  padding: 1px 6px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  height: min-content;
 }

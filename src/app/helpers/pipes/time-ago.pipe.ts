@@ -7,25 +7,35 @@ import {DateTime} from 'luxon';
 })
 
 export class TimeAgoPipe implements PipeTransform {
-  transform(value: any): any {
+  transform(value: any, type?: string): any {
+
+    if (value === null || value === undefined) return '';
 
     value = DateTime.fromISO(value)
     const userOffset = DateTime.local().offset
-    value = value.plus({minutes: userOffset});
+    const ISOTime = value.plus({minutes: userOffset});
 
     const currentTime = DateTime.now();
-    const timeInSec = currentTime.diff(value).as('seconds');
+    const diffTime = currentTime.diff(ISOTime)
+    const timeInSec = diffTime.as('seconds');
 
     const timeInMin = timeInSec / 60
 
+
+    if(type === 'message') {
+      return ISOTime.toFormat('HH:mm');
+    }
+
     if (timeInSec < 60) {
-      return Math.round(timeInSec) + 's ago'
+      return Math.round(timeInSec) + ' с назад'
     } else if (timeInSec > 60 && timeInMin < 60) {
-      return Math.round(timeInMin) + 'm ago'
+      return Math.round(timeInMin) + ' м назад'
     } else if (timeInMin > 60 && timeInMin < 1440) {
-      return Math.round(timeInMin / 60) + 'h ago'
-    } else if (timeInMin > 1440) {
-      return Math.round(timeInMin / 1440) + 'd ago'
+      return Math.round(timeInMin / 60) + ' ч назад'
+    } else if (timeInMin / 60 / 24 > 1 && timeInMin / 60 / 24 <= 7) {
+      return Math.round(timeInMin / 60 / 24) + ' д назад'
+    } else if (timeInMin / 60 / 24 > 7) {
+      return ISOTime.toFormat('HH:mm dd-MM-yyyy');
     }
 
 

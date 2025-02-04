@@ -61,17 +61,6 @@
   line-height: 24px;
 }
 
-.page-chat__count-chats{
-  border: none;
-  background-color: var(--primary-color);
-  color: var(--dark-color);
-  //display: flex;
-  padding: 1px 6px;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 700;
-}
-
 .subscribers{
   display: flex;
   flex-direction: column;
@@ -117,6 +106,7 @@
   padding: 4px 16px;
   justify-items: start;
   width: calc(100% - 24px);
+  user-select: none;
 
   &:hover{
     //color: var(--primary-color);
@@ -127,7 +117,10 @@
   }
 }
 
-
+.subscribers-profiles__profile{
+  max-height: 120px;
+  overflow-y: scroll;
+}
 
 .sidebar__popup-btn{
   border-radius: 2px;

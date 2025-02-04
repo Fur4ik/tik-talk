@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-experiment',
-  imports: [],
+  imports: [
+  ],
   templateUrl: './experiment.component.html',
   standalone: true,
   styleUrl: './experiment.component.scss'
@@ -10,3 +11,5 @@ import { Component } from '@angular/core';
 export class ExperimentComponent {
 
 }
+
+

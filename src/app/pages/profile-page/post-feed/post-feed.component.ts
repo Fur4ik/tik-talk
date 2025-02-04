@@ -1,48 +1,64 @@
-import {Component, inject, Input} from '@angular/core';
-import {PostInputComponent} from '../post-input/post-input.component';
-import {ProfileService} from '../../../data/services/profile.service';
+import {Component, inject, input, Input, OnInit} from '@angular/core';
 import {Profile} from '../../../data/interfaces/profile';
 import {PostService} from '../../../data/services/post.service';
-import {firstValueFrom, of} from 'rxjs';
-import {JsonPipe} from '@angular/common';
+import {firstValueFrom, switchMap} from 'rxjs';
 import {PostComponent} from '../post/post.component';
+import {ActivatedRoute} from '@angular/router';
+import {CommentCreateDto, PostCreateDto} from '../../../data/interfaces/post.interface';
+import {ProfileService} from '../../../data/services/profile.service';
+import {MessageInputComponent} from '../../../common-ui/message-input/message-input.component';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-post-feed',
   imports: [
-    PostInputComponent,
-    PostComponent
+    PostComponent,
+    MessageInputComponent,
+    AsyncPipe
   ],
   templateUrl: './post-feed.component.html',
   standalone: true,
   styleUrl: './post-feed.component.scss'
 })
 export class PostFeedComponent {
-  @Input() profile!: Profile;
+  @Input() isMyPageInp!: boolean;
+  profile = input<Profile>()
 
   profileService = inject(ProfileService);
+
+  me$ = this.profileService.me()
+
+  route = inject(ActivatedRoute)
   postService = inject(PostService);
 
-  posts = this.postService.posts
+  activeProfilePosts$ = this.route.params
+    .pipe(
+      switchMap(({id}) => {
+          if (id === 'me' || id === this.profileService.me()?.id) {
+           return this.postService.getPost()
+          }
+           return this.postService.getPost(id)
+        }
+      )
+    )
 
-  constructor() {
-    firstValueFrom(this.postService.getPost())
+  onCreateComment([data, postId]: [string, number]) {
+    const commentDTO: CommentCreateDto = {
+      text: data,
+      authorId: this.me$!.id,
+      postId: postId
+    }
+    firstValueFrom(this.postService.createComment(commentDTO))
+    console.log('comm: ' + commentDTO.text)
   }
 
-  // posts$ = this.postService.getPost()
-    // .pipe(
-    //   filter(post => post.author.id===this.profile.id),
-    // )
-
-  // ngOnInit() {
-  //   console.log('alee')
-  //   this.posts$.subscribe(posts => {
-  //     console.log(posts)
-  //   })
-  //   // console.log(this.posts$);
-  //   console.log('alee2')
-  // }
-
-
-  protected readonly of = of;
+  onCreatePost(data: string) {
+      const postDTO: PostCreateDto = {
+        title: 'Это мой пост',
+        content: data,
+        authorId: this.me$!.id,
+        communityId: 0
+      }
+    firstValueFrom(this.postService.createPost(postDTO))
+  }
 }

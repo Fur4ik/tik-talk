@@ -1,4 +1,8 @@
 :host {
+  cursor: pointer;
+}
+
+.btn-wrapper {
   height: 48px;
   display: grid;
   grid-template-columns: 32px 1fr;
@@ -6,20 +10,7 @@
   align-items: center;
   margin-top: -6px;
   margin-bottom: -6px;
-}
-
-//.subscribers-profiles__profile{
-//  height: 48px;
-//  display: grid;
-//  grid-template-columns: 32px 1fr;
-//  grid-gap: 12px;
-//  align-items: center;
-//}
-
-.profile__img{
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
+  cursor: pointer;
 }
 
 .profile__name{

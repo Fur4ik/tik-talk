@@ -1,7 +1,7 @@
 <div class="post-wrapper__input">
   <img class="post__profile-img" src="{{profile!.avatarUrl | imgUrl}}" alt="">
   <textarea
-    [(ngModel)]="postText"
+    [(ngModel)]="inputText"
     class="post__input medium-text"
     placeholder="Напишите что-нибудь"
     rows="1"
@@ -18,7 +18,8 @@
     </svg>
   </button>
 
-  <button class="btn" (click)="onCreatePost()">
+
+  <button class="btn" (click)="onCreate()">
     <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0.34375 12V7.34375L10.3438 6L0.34375 4.65625V0L14.3438 6L0.34375 12Z" fill="currentColor"/>
     </svg>
