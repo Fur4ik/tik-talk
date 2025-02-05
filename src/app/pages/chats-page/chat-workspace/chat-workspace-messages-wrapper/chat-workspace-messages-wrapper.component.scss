@@ -1,18 +1,39 @@
-:host{
+:host {
   display: grid;
   grid-template-rows: 1fr min-content;
   grid-gap: 16px;
   padding: 16px 20px;
 }
 
-
-.message-wrapper{
+.message-wrapper {
   height: min-content;
   overflow-y: scroll;
   display: grid;
   grid-gap: 8px;
+  position: relative;
 }
 
-.main-wrapper{
+.main-wrapper {
   overflow-y: scroll;
+}
+
+.popup-message {
+  overflow: visible;
+  z-index: 1;
+  position: absolute;
+}
+
+.date-info {
+  cursor: default;
+  user-select: none;
+  background-color: var(--hovered-dark-color);
+  padding: 6px 22px;
+  width: auto;
+  justify-self: center;
+  border-radius: 4px;
+}
+
+.date-info__text {
+  user-select: none;
+  font-size: 14px;
 }

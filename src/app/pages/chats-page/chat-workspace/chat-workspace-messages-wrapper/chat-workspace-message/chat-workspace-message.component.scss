@@ -8,6 +8,7 @@
 
   align-items: end;
   width: min-content;
+  //max-width: 300px;
   height: min-content;
 
   &.is-mine {
@@ -23,6 +24,7 @@
 }
 
 .message-time {
+  transform: translateY(3px);
   cursor: default;
   user-select: none;
   font-size: 12px;

@@ -1,15 +1,27 @@
 <div class="main-wrapper" #mainWrapper>
-  <div class="message-wrapper">
-    @for (message of message(); track message.id) {
-      <app-chat-workspace-message
-        [message]="message"
-      />
+  <div class="message-wrapper" #messageWrapper>
+    @for (messageByDay of message(); track messageByDay.date) {
+      <div class="date-info">
+        <span class="date-info__text">{{ messageByDay.date | timeAgo: "date" }}</span>
+      </div>
+      @for (message of messageByDay.message; track message.id) {
+        <app-chat-workspace-message (contextmenu)="onRightClick(message, $event)" [message]="message" />
+      }
     }
+
+    <div #popupMessageId class="popup-message">
+      <app-popup-message
+        popupDirective
+        (appClickOutside)="popupMessage.set(false)"
+        [style.display]="popupMessage() ? 'flex' : 'none'"
+        (messageChange)="onPopupMessage($event)"
+      />
+    </div>
   </div>
 </div>
 
 <div #inputMessage>
   <app-message-input
-    (created)="sendMessage($event)"
-  />
+    [oldInputText]="oldMessageText()"
+    (created)="sendMessage($event)" />
 </div>

@@ -11,9 +11,9 @@
     </div>
 
 
-    <div class="btn-main" appTruncateText #textBlock>
+    <div class="btn-main"  #textBlock>
       <span class="medium-text">
-        {{ chat.message | truncateText: Number(textBlock.getAttribute('data-max-width')) }}
+        {{ chat.message }}
       </span>
       @if (chat.unreadMessages > 0) {
         <span class="count-chats">

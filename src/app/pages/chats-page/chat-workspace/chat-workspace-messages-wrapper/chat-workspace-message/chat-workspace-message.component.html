@@ -1,4 +1,4 @@
 @if (message(); as message) {
-  <div class="medium-text message-text"> {{ message.text }}</div>
-  <div class="medium-text message-time"> {{ message.createdAt | timeAgo: 'message' }}</div>
+  <div class="medium-text message-text">{{ message.text }}</div>
+  <div class="medium-text message-time">{{ message.createdAt | timeAgo: "message" }}</div>
 }
