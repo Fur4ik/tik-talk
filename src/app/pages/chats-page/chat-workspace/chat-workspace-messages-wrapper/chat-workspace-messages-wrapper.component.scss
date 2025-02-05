@@ -23,3 +23,14 @@
   z-index: 1;
   position: absolute;
 }
+
+.date-info{
+  background-color: var(--hovered-dark-color);
+  padding: 6px 22px;
+  width: min-content;
+  justify-self: center;
+}
+
+.date-info__text{
+  font-size: 14px;
+}

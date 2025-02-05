@@ -1,5 +1,5 @@
 import {
-  Component,
+  Component, computed, effect,
   ElementRef,
   HostListener,
   inject,
@@ -11,13 +11,21 @@ import {
 } from '@angular/core';
 import {ChatWorkspaceMessageComponent} from './chat-workspace-message/chat-workspace-message.component';
 import {MessageInputComponent} from '../../../../common-ui/message-input/message-input.component';
-import {firstValueFrom, of, switchMap, tap, timer} from 'rxjs';
+import {BehaviorSubject, firstValueFrom, from, of, switchMap, tap, timer} from 'rxjs';
 import {MessageService} from '../../../../data/services/message.service';
 import {Chat} from '../../../../data/interfaces/chat.interface';
 import {ChatService} from '../../../../data/services/chat.service';
 import {PopupDirective} from '../../../../common-ui/directives/popup.directive';
 import {PopupMessageComponent} from './popup-message/popup-message.component';
 import {Message} from '../../../../data/interfaces/message.interface';
+import {DateTime} from 'luxon';
+import {toObservable} from '@angular/core/rxjs-interop';
+
+interface MessagesByDays {
+  date: number[];
+  message: Message[];
+}
+
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
@@ -31,43 +39,90 @@ import {Message} from '../../../../data/interfaces/message.interface';
   standalone: true,
   styleUrl: './chat-workspace-messages-wrapper.component.scss'
 })
+
 export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
   messageService = inject(MessageService);
   chatService = inject(ChatService);
   r2 = inject(Renderer2)
 
-  popupMessage = signal<boolean>(false)
-
-  @ViewChild('mainWrapper') mainWrapper!: ElementRef;
-  @ViewChild('inputMessage') inputMessage!: ElementRef;
 
   chat = input.required<Chat>()
-
   message = this.chatService.activeChatMessage
+  messagesByDays = signal<MessagesByDays[]>([])
+
+  mess = toObservable(this.chatService.activeChatMessage)
+
+  createdFromDay(date: string) {
+    const dateTime = DateTime.fromISO(date);
+    return [dateTime.day, dateTime.month, dateTime.year];
+  }
+
+  isEqualDate(message: Message) {
+    const messageDate = this.createdFromDay(message.createdAt);
+    // const currentMessagesByDays = this.messagesByDays()
+    const currentDay = this.messagesByDays().find((mess) => {
+      return mess.date[0] === messageDate[0] && mess.date[1] === messageDate[1] && mess.date[2] === messageDate[2]
+    });
+
+    // console.log(this.messagesByDays())
+
+    if (currentDay) {
+      currentDay.message.push(message);
+    } else {
+      this.messagesByDays().push({date: messageDate, message: [message]});
+    }
+
+    // this.messagesByDays.set([...this.messagesByDays()]);
+  }
+
+  ngOnInit() {
+    timer(0, 5000)
+      .pipe(switchMap(() => {
+        // this.forEachMessage()
+        // console.log(this.messagesByDays());
+        return this.chatService.getChat(this.chat().id)
+        })
+      )
+      .subscribe()
+
+
+    this.forEachMessage()
+    // console.log(this.mess.source)
+    console.log(this.messagesByDays());
+
+
+  }
+
+  forEachMessage(){
+    this.message()
+      .forEach(message => {
+        this.isEqualDate(message)
+      })
+  }
+
 
   async sendMessage(messageTest: string) {
     await firstValueFrom(this.messageService.postMessage(this.chat().id, messageTest));
     await firstValueFrom(this.chatService.getChat(this.chat().id));
     this.resizeMessageWrapper()
+
+    this.forEachMessage()
   }
 
+
+  //for resize wrapper
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.resizeMessageWrapper()
-  }
-
-  ngOnInit() {
-    timer(0, 5000)
-      .pipe(
-        switchMap(() => this.chatService.getChat(this.chat().id))
-      )
-      .subscribe()
   }
 
   ngAfterViewInit() {
     // console.log(this.inputMessage.nativeElement)
     this.resizeMessageWrapper()
   }
+
+  @ViewChild('mainWrapper') mainWrapper!: ElementRef;
+  @ViewChild('inputMessage') inputMessage!: ElementRef;
 
   resizeMessageWrapper() {
     const {top} = this.mainWrapper.nativeElement.getBoundingClientRect();
@@ -79,6 +134,9 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
     // console.log(window.innerHeight, top, inputHeight, topInput, bottomInput);
   }
 
+
+  //for popup
+  popupMessage = signal<boolean>(false)
 
   @ViewChild('popupMessageId') popupMessageId!: ElementRef;
   @ViewChild('messageWrapper') messageWrapper!: ElementRef;
