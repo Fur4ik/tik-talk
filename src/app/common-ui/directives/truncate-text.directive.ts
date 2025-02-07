@@ -24,7 +24,7 @@ export class TruncateTextDirective implements OnInit, OnDestroy {
 
   maxWidthText(){
     const maxWidth = this.elRef.nativeElement.offsetWidth;
-    console.log('Max Width:', maxWidth); // Для отладки
+    // console.log('Max Width:', maxWidth); // Для отладки
     this.r2.setAttribute(this.elRef, 'data-max-width', maxWidth);
   }
 }

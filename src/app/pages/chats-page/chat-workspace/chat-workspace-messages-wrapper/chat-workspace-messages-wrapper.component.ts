@@ -115,7 +115,7 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
     if (type === 'edit') {
       const message = await firstValueFrom(this.messageService.getMessage(this.currentMessageId))
 
-      console.log('edit ' + this.currentMessageId, message.text)
+      // console.log('edit ' + this.currentMessageId, message.text)
       this.oldMessageText.set(message.text)
 
       this.isEditMessage = true

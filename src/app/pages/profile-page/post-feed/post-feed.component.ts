@@ -49,7 +49,7 @@ export class PostFeedComponent {
       postId: postId
     }
     firstValueFrom(this.postService.createComment(commentDTO))
-    console.log('comm: ' + commentDTO.text)
+    // console.log('comm: ' + commentDTO.text)
   }
 
   onCreatePost(data: string) {
