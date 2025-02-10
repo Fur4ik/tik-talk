@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  padding: 16px 20px;
+  align-items: center;
+  border-bottom: var(--light-border);
+  height: 78px;
+  user-select: none;
+  justify-content: space-between;
+}
+
+.header-profile-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: start;
+}
+
+.prof-img {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+}
+
+.header-profile-info__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile__name {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.online {
+  color: var(--primary-color);
+}
+
+.offline {
+  color: var(--light-gray);
+}
+
+.wh__btn {
+  .btn {
+    padding: 14px;
+  }
+}
+
+.dots-svg {
+  transform: rotate(-90deg);
+}

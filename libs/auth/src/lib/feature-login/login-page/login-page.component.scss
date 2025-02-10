@@ -1,0 +1,85 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  height: 100vh;
+  margin: 0 5%;
+  gap: 5%;
+}
+
+.login-form {
+  font-family: "JetBrains Mono", sans-serif;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  //width: 400px;
+  min-width: 320px;
+}
+
+.tt-control-label {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.tt-input {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  border: 1px solid var(--light-color);
+  background-color: var(--dark-color);
+  padding: 12px 45px 12px 20px;
+  border-radius: 2px;
+  font-family: "JetBrains Mono", sans-serif;
+  color: var(--light-color);
+  margin-top: 8px;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.tt-label-block {
+  position: relative;
+  //display: block;
+}
+
+.tt-control-btn {
+  position: absolute;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--light-color);
+  top: 24px;
+  right: 15px;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.tt-control-btn.active {
+  color: var(--primary-color);
+}
+
+@media (max-width: 780px) {
+  :host {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .login-form__logo {
+    display: none;
+  }
+}

@@ -1,0 +1,4 @@
+<button class="btn-wrapper" [routerLink]="['/profile/', profile.id]">
+  <img class="profile-img" [src]="profile.avatarUrl | imgUrl" alt="" />
+  <span class="profile__name">{{ profile.firstName }} {{ profile.lastName }}</span>
+</button>

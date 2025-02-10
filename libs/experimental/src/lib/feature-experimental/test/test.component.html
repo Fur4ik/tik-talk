@@ -1,0 +1,104 @@
+<form class="delivery-form" [formGroup]="workoutForm" (ngSubmit)="onSubmit($event)">
+  <span class="h1">Запись на тренировку</span>
+
+  <label class="tt-form-label">
+    Имя
+    <input class="tt-form-input" placeholder="Введите имя" formControlName="firstName" type="text" />
+  </label>
+
+  @if (workoutForm.controls.firstName.hasError("nameVal")) {
+    <span class="medium-text">{{ workoutForm.controls.firstName.getError("nameVal")?.message }}</span>
+  }
+  @if (workoutForm.controls.firstName.hasError("startsWith")) {
+    <span>{{ workoutForm.controls.firstName.getError("startsWith")?.message }}</span>
+  }
+
+  <label class="tt-form-label">
+    Фамилия
+    <input class="tt-form-input" placeholder="Введите фамилию" formControlName="lastName" type="text" />
+  </label>
+
+  <label class="tt-form-label">
+    Телефон
+    <input
+      (input)="phoneInput($event)"
+      (keydown)="preventDelete($event)"
+      class="tt-form-input"
+      placeholder="+7(888)-999-99-99"
+      formControlName="phone"
+      type="text"
+    />
+  </label>
+
+  <div class="checkbox-wrapper mt12" [formGroup]="workoutForm.controls.physicalFeatures">
+    <span class="h2">Дополнительная информация</span>
+    @for (control of workoutForm.controls.physicalFeatures.controls | keyvalue: sort; track control; let i = $index) {
+      <label class="checkbox-label">
+        {{ physicalFeatures[i].label }}
+        <input class="checkbox-input" type="checkbox" [formControlName]="control.key" />
+        <span class="checkbox"></span>
+      </label>
+    }
+  </div>
+
+  <div class="mt12 training-add">
+    <span class="h2">Добавление тренировки</span>
+    <button type="button" class="btn-add" (click)="addTraining()">+</button>
+  </div>
+
+  <div class="training-wrapper">
+    @for (group of workoutForm.controls.trainingSession.controls; track group; let i = $index) {
+      <div class="training-session mt12" [formGroup]="group">
+        <label class="tt-form-label">
+          Тип тренировки
+          <div class="select-wrapper">
+            <select class="form-select" formControlName="type">
+              <option value="" selected disabled>-- Выберите тип тренировки --</option>
+              @for (training of trainings; track training) {
+                <option [value]="training.type">{{ training.name }}</option>
+              }
+            </select>
+          </div>
+        </label>
+
+        <label class="tt-form-label">
+          Время тренировки
+          <div class="select-wrapper">
+            <select class="form-select" formControlName="time">
+              <option value="" selected disabled>-- Выберите время тренировки --</option>
+              @for (time of trainingTime; track time) {
+                <option [value]="time">{{ time }}</option>
+              }
+            </select>
+          </div>
+        </label>
+
+        <label class="tt-form-label">
+          Дата тренировки
+          <input class="tt-form-input" type="date" formControlName="date" />
+        </label>
+
+        <label class="tt-form-label">
+          Тренер
+          <div class="select-wrapper">
+            <select class="form-select" formControlName="trainer">
+              <option value="" selected disabled>-- Выберите тренера --</option>
+              @for (trainer of trainers; track trainer) {
+                @if (group.controls.type.value === trainer.workoutType) {
+                  <option [value]="trainer.name">{{ trainer.name }}</option>
+                }
+              }
+            </select>
+          </div>
+        </label>
+      </div>
+      <button class="btn" style="display: grid; width: 100%" (click)="deleteTraining(i)" type="button">
+        Удалить тренировку
+      </button>
+    }
+  </div>
+
+  <span style="color: tomato">{{ error }}</span>
+
+  <button class="form-btn">Отправить заявку</button>
+</form>

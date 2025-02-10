@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  grid-template-columns: auto 4px 1fr;
+  background: var(--hovered-dark-color);
+  height: calc(100vh - 48px);
+  border: var(--light-border);
+  min-height: 500px;
+}
+
+.touchable-side__wrapper {
+  display: flex;
+  width: 4px;
+  //padding: 4px;
+  cursor: col-resize;
+  justify-content: center;
+}
+
+.touchable-side {
+  width: 2px;
+  border: 1px solid var(--light-color);
+}
