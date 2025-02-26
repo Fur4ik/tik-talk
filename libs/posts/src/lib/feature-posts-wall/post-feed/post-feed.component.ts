@@ -2,48 +2,44 @@ import { Component, inject, input, Input } from '@angular/core'
 import { firstValueFrom, switchMap } from 'rxjs'
 import { PostComponent } from '../post/post.component'
 import { ActivatedRoute } from '@angular/router'
-import { CommentCreateDto, PostCreateDto } from '../../data/interfaces/post.interface'
+import { CommentCreateDto, Post, PostCreateDto } from '../../data/interfaces/post.interface'
 import { MessageInputComponent } from '@tt/common-ui'
 import { AsyncPipe } from '@angular/common'
-import { PostService } from '../../data'
-import { Profile } from '@tt/interfaces/profile'
-import { GlobalStoreService } from '@tt/shared'
+import { postsActions, PostService, selectPosts } from '../../data'
+import { Store } from '@ngrx/store'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { Profile } from '@tt/data-access/profile'
+import { GlobalStoreService } from '@tt/data-access/global-store'
 
 @Component({
   selector: 'app-post-feed',
   imports: [PostComponent, MessageInputComponent, AsyncPipe],
   templateUrl: './post-feed.component.html',
   standalone: true,
-  styleUrl: './post-feed.component.scss',
+  styleUrl: './post-feed.component.scss'
 })
 export class PostFeedComponent {
   @Input() isMyPageInp!: boolean
   profile = input<Profile>()
 
-  globalStoreService = inject(GlobalStoreService)
-
-  me$ = this.globalStoreService.me()
-
   route = inject(ActivatedRoute)
   postService = inject(PostService)
+  globalStoreService = inject(GlobalStoreService)
+  store = inject(Store)
 
-  activeProfilePosts$ = this.route.params.pipe(
-    switchMap(({ id }) => {
-      if (id === 'me' || id === this.globalStoreService.me()?.id) {
-        return this.postService.getPost()
-      }
-      return this.postService.getPost(id)
-    }),
-  )
+  me$ = this.globalStoreService.me()
+  activeProfilePosts$ = this.store.select(selectPosts)
 
-  onCreateComment([data, postId]: [string, number]) {
-    const commentDTO: CommentCreateDto = {
-      text: data,
-      authorId: this.me$!.id,
-      postId: postId,
-    }
-    firstValueFrom(this.postService.createComment(commentDTO))
-    // console.log('comm: ' + commentDTO.text)
+  constructor() {
+    this.route.params.pipe(
+      takeUntilDestroyed(),
+      switchMap(({ id }) => {
+        if (id === 'me')
+          id = this.globalStoreService.me()!.id
+        this.store.dispatch(postsActions.getPost({ userId: Number(id) }))
+        return this.store.select(selectPosts)
+      })
+    ).subscribe()
   }
 
   onCreatePost(data: string) {
@@ -51,8 +47,21 @@ export class PostFeedComponent {
       title: 'Это мой пост',
       content: data,
       authorId: this.me$!.id,
-      communityId: 0,
+      communityId: 0
     }
-    firstValueFrom(this.postService.createPost(postDTO))
+    this.store.dispatch(postsActions.createPost({payloadPost: postDTO}))
+  }
+
+  onDeletePost(id: number) {
+    this.store.dispatch(postsActions.deletePost({postId: id}))
+  }
+
+  onCreateComment([data, postId]: [string, number]) {
+    const commentDTO: CommentCreateDto = {
+      text: data,
+      authorId: this.me$!.id,
+      postId: postId
+    }
+    firstValueFrom(this.postService.createComment(commentDTO))
   }
 }

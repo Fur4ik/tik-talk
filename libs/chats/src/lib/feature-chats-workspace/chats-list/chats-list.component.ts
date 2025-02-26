@@ -4,7 +4,7 @@ import { AsyncPipe } from '@angular/common'
 import { RouterLink, RouterLinkActive } from '@angular/router'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { map, startWith, switchMap, timer } from 'rxjs'
-import { ChatService } from '../../data'
+import { ChatService } from '@tt/data-access/chats'
 
 @Component({
   selector: 'app-chats-list',
@@ -23,8 +23,25 @@ export class ChatsListComponent {
 
   inputValueLength = 0
 
-  chats$ = timer(0, 5000).pipe(
-    switchMap(() => this.chatService.getMyChats()),
+  // chats$ = timer(0, 5000).pipe(
+  //   switchMap(() => this.chatService.getMyChats()),
+  //   switchMap((chat) => {
+  //     return this.filteredChats.valueChanges.pipe(
+  //       startWith(''),
+  //       map((inputValue) => {
+  //         return chat.filter((chat) => {
+  //           this.inputValueLength = inputValue!.length
+  //           return `${chat.userFrom.firstName} ${chat.userFrom.lastName}`
+  //             .toLowerCase()
+  //             .includes(inputValue!.toLowerCase() ?? '')
+  //         })
+  //       }),
+  //     )
+  //   }),
+  // )
+
+  chats$ = this.chatService.getMyChats()
+    .pipe(
     switchMap((chat) => {
       return this.filteredChats.valueChanges.pipe(
         startWith(''),

@@ -21,6 +21,10 @@ export class TimeAgoPipe implements PipeTransform {
       return `${value[0]}.${value[1]}.${value[2]}`
     }
 
+    if(type === 'message') {
+      value = value.replace(' ', 'T')
+    }
+
     value = DateTime.fromISO(value)
     const userOffset = DateTime.local().offset
     const ISOTime = value.plus({ minutes: userOffset })

@@ -4,7 +4,11 @@
 
 @if (activeProfilePosts$) {
   @for (post of activeProfilePosts$ | async; track post.id) {
-    <app-post (created)="onCreateComment($event)" [isMyPageInp]="isMyPageInp" [post]="post" />
+    <app-post
+      (deletedPost)="onDeletePost($event)"
+      (created)="onCreateComment($event)"
+      [isMyPageInp]="isMyPageInp"
+      [post]="post" />
   }
 } @else {
   <p>их нет</p>

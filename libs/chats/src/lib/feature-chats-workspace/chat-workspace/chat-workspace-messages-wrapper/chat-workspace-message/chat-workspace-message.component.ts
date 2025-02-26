@@ -1,6 +1,6 @@
 import { Component, HostBinding, input } from '@angular/core'
-import { Message } from '../../../../data'
 import { TimeAgoPipe } from '@tt/common-ui'
+import { Message } from '@tt/data-access/chats'
 
 @Component({
   selector: 'app-chat-workspace-message',

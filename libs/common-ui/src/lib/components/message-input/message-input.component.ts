@@ -12,7 +12,7 @@ import {
 } from '@angular/core'
 import { ImgUrlPipe } from '../../pipes'
 import { FormsModule } from '@angular/forms'
-import { GlobalStoreService } from '@tt/shared'
+import { GlobalStoreService } from '@tt/data-access/global-store'
 
 @Component({
   selector: 'app-message-input',

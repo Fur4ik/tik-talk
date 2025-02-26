@@ -1,12 +1,16 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core'
 import { RouterLink, RouterLinkActive } from '@angular/router'
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component'
 import { AsyncPipe } from '@angular/common'
-import { firstValueFrom} from 'rxjs'
+import { firstValueFrom, Subscription, timer } from 'rxjs'
 import { AuthService } from '@tt/auth'
 import { ProfileService } from '@tt/profile'
 import { ImgUrlPipe, PopupDirective } from '@tt/common-ui'
-import { ChatService } from '@tt/chats'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ChatService } from '@tt/data-access/chats'
+import { GlobalStoreService } from '@tt/data-access/global-store'
+import { messages } from 'nx/src/utils/ab-testing'
+import { isErrorMessage, isUnreadMessage } from '@tt/data-access/chats/interfaces/type-guards'
 
 @Component({
   selector: 'app-sidebar',
@@ -15,22 +19,45 @@ import { ChatService } from '@tt/chats'
   standalone: true,
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
+  #globalStoreService = inject(GlobalStoreService)
+  #chatService = inject(ChatService)
   profileService = inject(ProfileService)
   authService = inject(AuthService)
-  chatService = inject(ChatService)
+  destroyRef = inject(DestroyRef)
 
-  me = this.profileService.me
   isOpenedPopupBtn = signal<boolean>(false)
-  unreadMessages = this.chatService.unreadMessage
+  me = this.#globalStoreService.me
+  unreadMessages = this.#chatService.unreadMessage
 
   subscribers$ = this.profileService.getSubscribersShortList()
-
   subscriptions$ = this.profileService.getSubscriptionsShortList()
+  wsSubscribe!: Subscription
+
+
+  async reconnect(){
+    await firstValueFrom(this.profileService.getMe())
+    await firstValueFrom(timer(2000))
+    this.connectWs()
+    console.log('reconnecting is done')
+  }
+
+  connectWs(){
+    this.wsSubscribe?.unsubscribe()
+    this.wsSubscribe = this.#chatService.connectWs()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((message)=>{
+          if(isErrorMessage(message)){
+            console.log('reconnecting...')
+            this.reconnect()
+          }
+        }
+      )
+  }
 
   ngOnInit() {
     firstValueFrom(this.profileService.getMe())
-    firstValueFrom(this.chatService.getUnreadMessages())
+    this.connectWs()
   }
 
   onLogout() {

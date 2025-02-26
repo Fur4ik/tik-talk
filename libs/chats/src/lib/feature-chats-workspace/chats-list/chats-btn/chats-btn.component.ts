@@ -1,6 +1,6 @@
 import { Component, ElementRef, input, ViewChild } from '@angular/core'
-import { MyChats } from '../../../data'
 import { ImgUrlPipe, TimeAgoPipe } from '@tt/common-ui'
+import { MyChats } from '@tt/data-access/chats'
 
 @Component({
   selector: 'button [chats]',

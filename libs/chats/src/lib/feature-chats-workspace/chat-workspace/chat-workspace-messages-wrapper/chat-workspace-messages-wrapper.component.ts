@@ -1,46 +1,60 @@
-import { Component, ElementRef, HostListener, inject, input, OnInit, Renderer2, signal, ViewChild } from '@angular/core'
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  input, OnChanges, OnDestroy,
+  Renderer2,
+  signal, SimpleChanges,
+  ViewChild
+} from '@angular/core'
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component'
-import { firstValueFrom, switchMap, timer } from 'rxjs'
+import { firstValueFrom } from 'rxjs'
 import { PopupMessageComponent } from './popup-message/popup-message.component'
 import { MessageInputComponent, PopupDirective, TimeAgoPipe } from '@tt/common-ui'
-import { Chat, ChatService, Message, MessageService } from '../../../data'
+import { Chat, ChatService, Message } from '@tt/data-access/chats'
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
   imports: [ChatWorkspaceMessageComponent, MessageInputComponent, PopupMessageComponent, PopupDirective, TimeAgoPipe],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   standalone: true,
-  styleUrl: './chat-workspace-messages-wrapper.component.scss',
+  styleUrl: './chat-workspace-messages-wrapper.component.scss'
 })
-export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
-  messageService = inject(MessageService)
+export class ChatWorkspaceMessagesWrapperComponent {
   chatService = inject(ChatService)
   r2 = inject(Renderer2)
 
   chat = input.required<Chat>()
   message = this.chatService.activeChatMessage
 
-  ngOnInit() {
-    timer(0, 5000)
-      .pipe(
-        switchMap(() => {
-          return this.chatService.getChat(this.chat().id)
-        }),
-      )
-      .subscribe()
-  }
+  @ViewChild('mainWrapper') mainWrapper!: ElementRef
+  @ViewChild('inputMessage') inputMessage!: ElementRef
+
+  // ngOnInit() {
+  //   timer(0, 5000)
+  //     .pipe(
+  //       switchMap(() => {
+  //         return this.chatService.getChat(this.chat().id)
+  //       }),
+  //     )
+  //     .subscribe()
+  // }
 
   async sendMessage(messageTest: string) {
-    if (this.isEditMessage) {
-      console.log(messageTest)
-      this.isEditMessage = false
-      await firstValueFrom(this.messageService.patchMessage(this.currentMessageId, messageTest))
-    } else {
-      await firstValueFrom(this.messageService.postMessage(this.chat().id, messageTest))
-    }
+    // if (this.isEditMessage) {
+    //   this.isEditMessage = false
+    //   await firstValueFrom(this.chatService.patchMessage(this.currentMessageId, messageTest))
+    // } else {
+    //   await firstValueFrom(this.chatService.postMessage(this.chat().id, messageTest))
+    // }
+    //
+    // await firstValueFrom(this.chatService.getChat(this.chat().id))
 
-    await firstValueFrom(this.chatService.getChat(this.chat().id))
+    this.chatService.wsAdapter.sendMessage(messageTest, this.chat().id)
+
     this.resizeMessageWrapper()
+    this.messageWrapper.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' })
   }
 
   //for resize wrapper
@@ -50,12 +64,9 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // console.log(this.inputMessage.nativeElement)
     this.resizeMessageWrapper()
+    this.messageWrapper.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end' })
   }
-
-  @ViewChild('mainWrapper') mainWrapper!: ElementRef
-  @ViewChild('inputMessage') inputMessage!: ElementRef
 
   resizeMessageWrapper() {
     const { top } = this.mainWrapper.nativeElement.getBoundingClientRect()
@@ -64,14 +75,17 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
 
     const heightWrapper = window.innerHeight - top - 60 - inputHeight
     this.r2.setStyle(this.mainWrapper.nativeElement, 'height', `${heightWrapper}px`)
-    // console.log(window.innerHeight, top, inputHeight, topInput, bottomInput);
   }
 
-  //for popup
+
   popupMessage = signal<boolean>(false)
+  oldMessageText = signal<string>('')
 
   @ViewChild('popupMessageId') popupMessageId!: ElementRef
   @ViewChild('messageWrapper') messageWrapper!: ElementRef
+
+  currentMessageId = 0
+  isEditMessage = false
 
   onRightClick(message: Message, event: MouseEvent) {
     if (event.button === 2) {
@@ -96,23 +110,15 @@ export class ChatWorkspaceMessagesWrapperComponent implements OnInit {
     }
   }
 
-  currentMessageId = 0
-
-  oldMessageText = signal<string>('')
-  isEditMessage = false
-
   async onPopupMessage(type: string) {
     this.popupMessage.set(false)
     if (type === 'delete') {
-      await firstValueFrom(this.messageService.deleteMessage(this.currentMessageId))
+      await firstValueFrom(this.chatService.deleteMessage(this.currentMessageId))
       await firstValueFrom(this.chatService.getChat(this.chat().id))
     }
     if (type === 'edit') {
-      const message = await firstValueFrom(this.messageService.getMessage(this.currentMessageId))
-
-      // console.log('edit ' + this.currentMessageId, message.text)
+      const message = await firstValueFrom(this.chatService.getMessage(this.currentMessageId))
       this.oldMessageText.set(message.text)
-
       this.isEditMessage = true
     }
   }

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core'
+import { Component, HostListener, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { ChatsListComponent } from '../chats-list/chats-list.component'
 import { CookieService } from 'ngx-cookie-service'
@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service'
   standalone: true,
   styleUrl: './chats-page.component.scss',
 })
-export class ChatsPageComponent {
+export class ChatsPageComponent implements OnInit {
   cookieService = inject(CookieService)
 
   startX = 0
@@ -44,6 +44,6 @@ export class ChatsPageComponent {
     this.isResizing = false
 
     this.cookieService.delete('chatListWidth')
-    this.cookieService.set('chatListWidth', `${this.chatListWidth}`)
+    this.cookieService.set('chatListWidth', `${this.chatListWidth}`, {path:'/chats'})
   }
 }

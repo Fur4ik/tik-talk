@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { AbstractControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { map } from 'rxjs'
-import { Profile } from '@tt/interfaces/profile'
+import { Profile } from '@tt/data-access/profile'
 
 @Injectable({
   providedIn: 'root',

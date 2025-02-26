@@ -1,45 +1,54 @@
-import { Component, EventEmitter, inject, input, Input, OnInit, Output, signal } from '@angular/core'
-import { firstValueFrom } from 'rxjs'
-import { Post, PostComment, PostService } from '../../data'
+import { Component, computed, effect, EventEmitter, inject, input, Input, OnInit, Output, signal } from '@angular/core'
+import { Post, postsActions, PostService, selectComment } from '../../data'
 import { CommentComponent } from '../../ui'
 import { ImgUrlPipe, MessageInputComponent, PopupDirective, TimeAgoPipe } from '@tt/common-ui'
+import { Store } from '@ngrx/store'
+import { filter, map, take, tap } from 'rxjs'
+import { AsyncPipe, JsonPipe } from '@angular/common'
 
 @Component({
   selector: 'app-post',
-  imports: [ImgUrlPipe, PopupDirective, CommentComponent, TimeAgoPipe, MessageInputComponent],
+  imports: [ImgUrlPipe, PopupDirective, TimeAgoPipe, MessageInputComponent, AsyncPipe, CommentComponent],
   templateUrl: './post.component.html',
   standalone: true,
-  styleUrl: './post.component.scss',
+  styleUrl: './post.component.scss'
 })
 export class PostComponent implements OnInit {
   @Input() isMyPageInp!: boolean
   @Output() created = new EventEmitter<[string, number]>()
-
-  postService = inject(PostService)
-
+  @Output() deletedPost = new EventEmitter<number>()
   post = input<Post>()
-  comments = signal<PostComment[]>([])
+
+  store = inject(Store)
+
+  comments = this.store.select(selectComment)
+    .pipe(
+      map(res => res[this.post()!.id] || [])
+    )
+
+  commentsCounters = this.store.select(selectComment)
+    .pipe(
+      map(res => {
+        return res[this.post()!.id]
+        ? res[this.post()!.id].length
+          : 0
+      })
+    )
+
 
   isOpenedComments = signal<boolean>(false)
   isPopupVisible = signal<boolean>(false)
 
   ngOnInit() {
-    this.comments.set(this.post()!.comments)
-  }
-
-  async onCreated() {
-    const comments = await firstValueFrom(this.postService.getCommentsBuPostId(this.post()!.id))
-    this.comments.set(comments)
+    this.store.dispatch(postsActions.getComment({ postId: this.post()!.id }))
   }
 
   onCreatedComment(data: string) {
     this.created.emit([data, this.post()!.id])
-    this.onCreated()
-    console.table(this.comments())
   }
 
   onDeletePost(id: number) {
     this.isPopupVisible.set(false)
-    firstValueFrom(this.postService.deletePost(id))
+    this.deletedPost.emit(id)
   }
 }

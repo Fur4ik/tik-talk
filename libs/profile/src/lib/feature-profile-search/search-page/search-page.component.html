@@ -1,5 +1,7 @@
 <app-profile-filters />
 
 <div class="wrapper">
-  <app-profile-card *ngFor="let profile of profiles()" [profile]="profile" />
+  @for(profile of profiles(); track profile.id){
+  <app-profile-card [profile]="profile" />
+  }
 </div>

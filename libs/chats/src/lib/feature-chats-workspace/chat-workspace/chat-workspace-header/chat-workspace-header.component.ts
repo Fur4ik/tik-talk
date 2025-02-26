@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { ImgUrlPipe } from '@tt/common-ui'
-import { Profile } from '@tt/interfaces/profile'
+import { Profile } from '@tt/data-access/profile'
 
 @Component({
   selector: 'app-chat-workspace-header',

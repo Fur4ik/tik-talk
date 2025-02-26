@@ -1,7 +1,7 @@
 import { Component, HostListener, inject, signal } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { toObservable } from '@angular/core/rxjs-interop'
-import { firstValueFrom, switchMap } from 'rxjs'
+import { switchMap } from 'rxjs'
 import { AsyncPipe } from '@angular/common'
 import { PostFeedComponent } from '@tt/posts'
 import { ProfileService } from '../../data'
@@ -36,7 +36,6 @@ export class ProfilePageComponent {
   )
 
   subscribers$ = this.profileService.getSubscribersShortList(6)
-  protected readonly toString = toString
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
@@ -49,12 +48,7 @@ export class ProfilePageComponent {
     }
   }
 
-  async openChat(profileId: number) {
-    // await firstValueFrom(this.chatService.postChat(profileId))
-    //   .then((res) =>
-    //     this.router.navigate([`/chats/${res.id}`])
-    //   )
-
+  openChat(profileId: number) {
     this.router.navigate(['/chats', 'new'], {queryParams: {userId: profileId }})
   }
 }

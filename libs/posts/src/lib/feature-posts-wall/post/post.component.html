@@ -62,7 +62,7 @@
             fill="currentColor"
           />
         </svg>
-        <span class="post__stats-stat">{{ comments().length }}</span>
+        <span class="post__stats-stat">{{ commentsCounters | async }}</span>
       </button>
 
       <button class="post__stats-btn">
@@ -75,10 +75,9 @@
         <span class="post__stats-stat">{{ post()!.likes }}</span>
       </button>
     </div>
-
     <div class="post__comm" [style.display]="isOpenedComments() ? 'grid' : 'none'">
       <div class="post__comm-wrapper">
-        @for (comment of comments(); track comment.id) {
+        @for (comment of comments | async; track comment.id) {
           <app-comment [comment]="comment" />
         }
       </div>

@@ -1,8 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { map, tap } from 'rxjs'
-import { GlobalStoreService, Pageble } from '@tt/shared'
-import { Profile } from '@tt/interfaces/profile'
+import { Profile } from '@tt/data-access/profile'
+import { GlobalStoreService } from '@tt/data-access/global-store'
+import { Pageble } from '@tt/data-access/shared'
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,6 @@ export class ProfileService {
   #globalStoreService = inject(GlobalStoreService)
   baseApiUrl = 'https://icherniakov.ru/yt-course/'
   me = signal<Profile | null>(null)
-  filteredProfiles = signal<Profile[]>([])
 
   getMe() {
     return this.http.get<Profile>(`${this.baseApiUrl}account/me`).pipe(
@@ -34,7 +34,8 @@ export class ProfileService {
   }
 
   getSubscriptionsShortList() {
-    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}account/subscriptions/`).pipe(map((res) => res.items))
+    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}account/subscriptions/`)
+      .pipe(map((res) => res.items))
   }
 
   patchProfile(profile: Partial<Profile>) {
@@ -49,10 +50,6 @@ export class ProfileService {
   }
 
   filterProfile(params: Record<string, any>) {
-    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}account/accounts`, { params }).pipe(
-      tap((val) => {
-        this.filteredProfiles.set(val.items)
-      }),
-    )
+    return this.http.get<Pageble<Profile>>(`${this.baseApiUrl}account/accounts`, { params })
   }
 }
