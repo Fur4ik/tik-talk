@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, inject, signal } from '@angular/core'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 import { toObservable } from '@angular/core/rxjs-interop'
 import { switchMap } from 'rxjs'
@@ -13,7 +13,8 @@ import { ProfileInfoComponent } from '../../ui'
   imports: [AsyncPipe, ImgUrlPipe, PostFeedComponent, RouterLink, ProfileInfoComponent],
   templateUrl: './profile-page.component.html',
   standalone: true,
-  styleUrl: './profile-page.component.scss'
+  styleUrl: './profile-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfilePageComponent {
   profileService = inject(ProfileService)

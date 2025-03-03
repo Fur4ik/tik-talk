@@ -1,4 +1,4 @@
-import { Component, effect, inject, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, effect, inject, ViewChild } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { ProfileService } from '../../data'
 import { firstValueFrom } from 'rxjs'
@@ -13,7 +13,8 @@ import { AuthService } from '@tt/auth'
   imports: [ReactiveFormsModule, AvatarUploadComponent, AsyncPipe, ProfileInfoComponent, NgForOf],
   templateUrl: './settings-page.component.html',
   standalone: true,
-  styleUrl: './settings-page.component.scss'
+  styleUrl: './settings-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPageComponent {
   profileService = inject(ProfileService)

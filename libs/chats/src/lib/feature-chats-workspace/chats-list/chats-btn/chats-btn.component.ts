@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, ElementRef, input, ViewChild } from '@angular/core'
 import { ImgUrlPipe, TimeAgoPipe } from '@tt/common-ui'
 import { MyChats } from '@tt/data-access/chats'
 
@@ -8,6 +8,7 @@ import { MyChats } from '@tt/data-access/chats'
   templateUrl: './chats-btn.component.html',
   standalone: true,
   styleUrl: './chats-btn.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatsBtnComponent {
   chat = input<MyChats>()

@@ -8,5 +8,15 @@ export const selectFilteredProfiles = createSelector(
 
 export const selectSavedFilters = createSelector(
   profileFeature.selectProfileFilters,
-  (profileFilters) => profileFilters
+  (filters) => filters
+)
+
+export const selectProfilePageable = createSelector(
+  profileFeature.selectProfileFeatureState,
+  (state) => {
+    return {
+      page: state.page,
+      size: state.size
+    }
+  }
 )

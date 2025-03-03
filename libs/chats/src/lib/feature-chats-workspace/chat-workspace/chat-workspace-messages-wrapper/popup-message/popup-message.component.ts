@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core'
 
 @Component({
   selector: 'app-popup-message',
@@ -6,6 +6,7 @@ import { Component, EventEmitter, Output } from '@angular/core'
   templateUrl: './popup-message.component.html',
   styleUrl: './popup-message.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupMessageComponent {
   @Output() messageChange = new EventEmitter<string>()

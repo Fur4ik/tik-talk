@@ -1,4 +1,13 @@
-import { Component, ElementRef, HostBinding, HostListener, inject, Renderer2, ViewChild } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  inject,
+  Renderer2,
+  ViewChild
+} from '@angular/core'
 import { ChatsBtnComponent } from './chats-btn/chats-btn.component'
 import { AsyncPipe } from '@angular/common'
 import { RouterLink, RouterLinkActive } from '@angular/router'
@@ -12,6 +21,7 @@ import { ChatService } from '@tt/data-access/chats'
   templateUrl: './chats-list.component.html',
   standalone: true,
   styleUrl: './chats-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatsListComponent {
   chatService = inject(ChatService)

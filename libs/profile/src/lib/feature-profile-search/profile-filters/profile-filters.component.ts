@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, input, Input } from '@angular/core'
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { debounceTime, take } from 'rxjs'
+import { debounceTime, startWith, take } from 'rxjs'
 import { Store } from '@ngrx/store'
 import { profileActions, selectSavedFilters } from '@tt/profile'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -10,7 +10,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './profile-filters.component.html',
   standalone: true,
-  styleUrl: './profile-filters.component.scss'
+  styleUrl: './profile-filters.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ProfileFiltersComponent {
@@ -36,18 +37,14 @@ export class ProfileFiltersComponent {
         }
       )
 
-    this.store.dispatch(profileActions.filterEvents({ filters: this.searchForm.value }))
-
     this.searchForm.valueChanges
       .pipe(
+        startWith({}),
         debounceTime(300),
         takeUntilDestroyed()
       )
       .subscribe(formValue => {
           this.store.dispatch(profileActions.filterEvents({ filters: formValue }))
-          if (Object.values(formValue).some(val => val !== '')) {
-            this.store.dispatch(profileActions.savedFilters({ filters: formValue }))
-          }
         }
       )
   }

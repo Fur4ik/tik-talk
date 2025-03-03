@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   effect,
   ElementRef,
@@ -8,7 +9,7 @@ import {
   inject,
   input,
   Output,
-  Renderer2,
+  Renderer2
 } from '@angular/core'
 import { ImgUrlPipe } from '../../pipes'
 import { FormsModule } from '@angular/forms'
@@ -20,6 +21,7 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   templateUrl: './message-input.component.html',
   standalone: true,
   styleUrl: './message-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageInputComponent {
   r2 = inject(Renderer2)

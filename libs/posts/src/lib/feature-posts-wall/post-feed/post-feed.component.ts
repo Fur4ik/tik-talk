@@ -1,4 +1,4 @@
-import { Component, inject, input, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject, input, Input } from '@angular/core'
 import { firstValueFrom, switchMap } from 'rxjs'
 import { PostComponent } from '../post/post.component'
 import { ActivatedRoute } from '@angular/router'
@@ -16,7 +16,8 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   imports: [PostComponent, MessageInputComponent, AsyncPipe],
   templateUrl: './post-feed.component.html',
   standalone: true,
-  styleUrl: './post-feed.component.scss'
+  styleUrl: './post-feed.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostFeedComponent {
   @Input() isMyPageInp!: boolean

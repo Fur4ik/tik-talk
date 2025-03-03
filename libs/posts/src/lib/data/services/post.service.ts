@@ -8,7 +8,7 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   providedIn: 'root'
 })
 export class PostService {
-  baseApiUrl = 'https://icherniakov.ru/yt-course/'
+  baseApiUrl = '/yt-course/'
   #http = inject(HttpClient)
   me = inject(GlobalStoreService).me
 

@@ -1,17 +1,28 @@
-import { Component, computed, effect, EventEmitter, inject, input, Input, OnInit, Output, signal } from '@angular/core'
-import { Post, postsActions, PostService, selectComment } from '../../data'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  input,
+  Input,
+  OnInit,
+  Output,
+  signal
+} from '@angular/core'
+import { Post, postsActions, selectComment } from '../../data'
 import { CommentComponent } from '../../ui'
 import { ImgUrlPipe, MessageInputComponent, PopupDirective, TimeAgoPipe } from '@tt/common-ui'
 import { Store } from '@ngrx/store'
-import { filter, map, take, tap } from 'rxjs'
-import { AsyncPipe, JsonPipe } from '@angular/common'
+import { map } from 'rxjs'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
   selector: 'app-post',
   imports: [ImgUrlPipe, PopupDirective, TimeAgoPipe, MessageInputComponent, AsyncPipe, CommentComponent],
   templateUrl: './post.component.html',
   standalone: true,
-  styleUrl: './post.component.scss'
+  styleUrl: './post.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostComponent implements OnInit {
   @Input() isMyPageInp!: boolean

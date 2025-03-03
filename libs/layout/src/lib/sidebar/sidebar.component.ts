@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal } from '@angular/core'
 import { RouterLink, RouterLinkActive } from '@angular/router'
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component'
 import { AsyncPipe } from '@angular/common'
@@ -9,8 +9,7 @@ import { ImgUrlPipe, PopupDirective } from '@tt/common-ui'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ChatService } from '@tt/data-access/chats'
 import { GlobalStoreService } from '@tt/data-access/global-store'
-import { messages } from 'nx/src/utils/ab-testing'
-import { isErrorMessage, isUnreadMessage } from '@tt/data-access/chats/interfaces/type-guards'
+import { isErrorMessage } from '@tt/data-access/chats/interfaces/type-guards'
 
 @Component({
   selector: 'app-sidebar',
@@ -18,6 +17,7 @@ import { isErrorMessage, isUnreadMessage } from '@tt/data-access/chats/interface
   templateUrl: './sidebar.component.html',
   standalone: true,
   styleUrl: './sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit{
   #globalStoreService = inject(GlobalStoreService)

@@ -18,10 +18,14 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "@ng-web-apis/common": "^4.11.1",
+    "@ng-web-apis/intersection-observer": "^4.11.1",
     "@ngrx/effects": "^19.0.1",
     "@ngrx/store": "^19.0.1",
     "luxon": "^3.5.0",
     "ngx-cookie-service": "^19.0.0",
+    "ngx-infinite-scroll": "^19.0.0",
+    "nvm": "^0.0.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -56,6 +60,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "nx": "20.4.2",
     "prettier": "3.4.2",
+    "ts-node": "^10.9.2",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.19.0"
   }

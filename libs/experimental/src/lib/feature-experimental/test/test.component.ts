@@ -87,7 +87,7 @@ export class TestComponent {
   })
 
   constructor() {
-    // firstValueFrom(this.http.get<any>(`https://icherniakov.ru/yt-course/community/`))
+    // firstValueFrom(this.http.get<any>(`/yt-course/community/`))
 
     this.workoutForm.controls.trainingSession.clear()
 

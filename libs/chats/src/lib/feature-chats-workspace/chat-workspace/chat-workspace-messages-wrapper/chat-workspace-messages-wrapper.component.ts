@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -19,7 +20,8 @@ import { Chat, ChatService, Message } from '@tt/data-access/chats'
   imports: [ChatWorkspaceMessageComponent, MessageInputComponent, PopupMessageComponent, PopupDirective, TimeAgoPipe],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   standalone: true,
-  styleUrl: './chat-workspace-messages-wrapper.component.scss'
+  styleUrl: './chat-workspace-messages-wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatWorkspaceMessagesWrapperComponent {
   chatService = inject(ChatService)

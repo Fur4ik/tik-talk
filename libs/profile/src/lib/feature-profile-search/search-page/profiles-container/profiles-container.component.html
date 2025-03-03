@@ -1,0 +1,14 @@
+<div #container
+  class="profiles-wrapper"
+  infiniteScroll
+  [infiniteScrollDistance]="4"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()"
+  [fromRoot]="true"
+  [infiniteScrollContainer]="container"
+>
+  @for(profile of profiles(); track profile.id){
+    <app-profile-card
+      [profile]="profile" />
+  }
+</div>

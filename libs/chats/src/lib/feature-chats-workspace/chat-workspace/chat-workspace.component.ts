@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
 import { ChatWorkspaceHeaderComponent } from './chat-workspace-header/chat-workspace-header.component'
 import {
   ChatWorkspaceMessagesWrapperComponent
@@ -13,7 +13,8 @@ import { ChatService } from '@tt/data-access/chats'
   imports: [ChatWorkspaceHeaderComponent, ChatWorkspaceMessagesWrapperComponent, AsyncPipe],
   templateUrl: './chat-workspace.component.html',
   standalone: true,
-  styleUrl: './chat-workspace.component.scss'
+  styleUrl: './chat-workspace.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatWorkspaceComponent {
   route = inject(ActivatedRoute)

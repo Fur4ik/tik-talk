@@ -26,7 +26,7 @@ export class ChatService {
 
   wsAdapter: ChatWSService = new ChatWsRxjsService()
   // wsAdapter: ChatWSService = new ChatWsNativeService()
-  baseApiUrl = 'https://icherniakov.ru/yt-course/'
+  baseApiUrl = '/yt-course/'
 
   connectWs() {
     return this.wsAdapter.connect({
@@ -83,7 +83,7 @@ export class ChatService {
           return {
             ...message,
             user: chat.userFirst.id === message.userFromId ? chat.userFirst : chat.userSecond,
-            isMine: message.userFromId === this.me()!.id
+            isMine: message.userFromId === this.me()?.id
           }
         })
 

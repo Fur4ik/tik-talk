@@ -1,4 +1,4 @@
-import { Component, HostBinding, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core'
 import { TimeAgoPipe } from '@tt/common-ui'
 import { Message } from '@tt/data-access/chats'
 
@@ -8,6 +8,7 @@ import { Message } from '@tt/data-access/chats'
   templateUrl: './chat-workspace-message.component.html',
   standalone: true,
   styleUrl: './chat-workspace-message.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatWorkspaceMessageComponent {
   message = input.required<Message>()

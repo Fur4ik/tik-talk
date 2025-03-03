@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { ChatsListComponent } from '../chats-list/chats-list.component'
 import { CookieService } from 'ngx-cookie-service'
@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service'
   templateUrl: './chats-page.component.html',
   standalone: true,
   styleUrl: './chats-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatsPageComponent implements OnInit {
   cookieService = inject(CookieService)

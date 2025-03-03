@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { PostComment } from '../../data'
 import { ImgUrlPipe, TimeAgoPipe } from '@tt/common-ui'
@@ -9,6 +9,7 @@ import { ImgUrlPipe, TimeAgoPipe } from '@tt/common-ui'
   templateUrl: './comment.component.html',
   standalone: true,
   styleUrl: './comment.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentComponent {
   @Input() comment!: PostComment
