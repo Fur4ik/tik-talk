@@ -53,7 +53,7 @@ export class AddressInputComponent implements ControlValueAccessor {
       city: ` ${addressData.city_with_type ?? ''} ${addressData.settlement_with_type ?? ''}`.trim(),
       street: addressData.street_with_type,
       building: `${addressData.house_type} ${addressData.house} ${addressData.block_type ?? ''} ${addressData.block ?? ''}`,
-      apartment: `${addressData.flat_type} ${addressData.flat}`
+      apartment: `${addressData.flat_type ?? ''} ${addressData.flat ?? ''}`
     })
 
 
@@ -63,7 +63,7 @@ export class AddressInputComponent implements ControlValueAccessor {
 
   constructor() {
     this.addressForm.valueChanges.subscribe(val => {
-      this.onChange(String(Object.values(val)).replaceAll(',',', '))
+      this.onChange(String(Object.values(val)).replaceAll(',', ', '))
     })
   }
 

@@ -2,15 +2,16 @@
   <app-message-input (created)="onCreatePost($event)" />
 }
 
-
-@if (activeProfilePosts$) {
-  @for (post of activeProfilePosts$ | async; track post.id) {
-    <app-post
-      (deletedPost)="onDeletePost($event)"
-      (created)="onCreateComment($event)"
-      [isMyPageInp]="isMyPageInp"
-      [post]="post" />
+@if (activeProfilePosts$ | async; as activeProfilePosts) {
+  @if (activeProfilePosts.length) {
+    @for (post of activeProfilePosts; track post.id) {
+      <app-post
+        (deletedPost)="onDeletePost($event)"
+        (created)="onCreateComment($event)"
+        [isMyPageInp]="isMyPageInp"
+        [post]="post" />
+    }
+  } @else {
+    <span class="">Здесь пока пусто :(</span>
   }
-} @else {
-  <p>их нет</p>
 }

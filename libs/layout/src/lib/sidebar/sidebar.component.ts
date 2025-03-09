@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ChatService } from '@tt/data-access/chats'
 import { GlobalStoreService } from '@tt/data-access/global-store'
 import { isErrorMessage } from '@tt/data-access/chats/interfaces/type-guards'
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-sidebar',
@@ -38,11 +39,11 @@ export class SidebarComponent implements OnInit{
   async reconnect(){
     await firstValueFrom(this.profileService.getMe())
     await firstValueFrom(timer(2000))
-    this.connectWs()
+    this.connectWebSocket()
     console.log('reconnecting is done')
   }
 
-  connectWs(){
+  connectWebSocket(){
     this.wsSubscribe?.unsubscribe()
     this.wsSubscribe = this.#chatService.connectWs()
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -57,7 +58,7 @@ export class SidebarComponent implements OnInit{
 
   ngOnInit() {
     firstValueFrom(this.profileService.getMe())
-    this.connectWs()
+    this.connectWebSocket()
   }
 
   onLogout() {

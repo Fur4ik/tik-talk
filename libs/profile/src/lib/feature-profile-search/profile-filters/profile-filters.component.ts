@@ -20,8 +20,8 @@ export class ProfileFiltersComponent {
   searchForm = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
-    username: new FormControl(''),
-    stack: new FormControl('')
+    stack: new FormControl(''),
+    city: new FormControl('')
   })
 
   filters$ = this.store.select(selectSavedFilters)

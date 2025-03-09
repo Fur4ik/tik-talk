@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core'
+import { Subscription, timer } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-change-detection',
@@ -14,24 +16,31 @@ export class ChangeDetectionComponent {
 
   ctr = inject(ChangeDetectorRef)
 
+  sub: Subscription = new Subscription()
+
   constructor() {
 
-    setInterval(() => {
-      this.numberOfTicks ++
+    // this.sub =
 
-      this.numbers.push(this.numberOfTicks)
+    timer(0, 1000)
+      .pipe(
+        takeUntilDestroyed()
+      )
+      .subscribe(()=>{
+        this.numberOfTicks ++
 
-      console.log(this.numbers)
+        this.numbers.push(this.numberOfTicks)
 
-      if(this.numberOfTicks % 2 === 0){
-        this.ctr.reattach()
-      } else{
-        this.ctr.detach()
+        console.log(this.numbers)
+
+        if(this.numberOfTicks % 2 === 0){
+          this.ctr.reattach()
+        } else{
+          this.ctr.detach()
+        }
+
+        this.ctr.markForCheck()
       }
-
-      this.ctr.markForCheck()
-    }, 1000)
-
-
+    )
   }
 }

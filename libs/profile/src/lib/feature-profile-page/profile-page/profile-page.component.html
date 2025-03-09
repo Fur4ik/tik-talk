@@ -28,7 +28,6 @@
 
     <div class="profile-main">
       <app-post-feed
-        test
         [isMyPageInp]="isMyPage()"
         [profile]="profile" />
 
@@ -69,6 +68,13 @@
           <div class="profile-info__sec">
             <span class="h6">О себе</span>
             <span class="medium-text">{{ profile.description }}</span>
+          </div>
+        }
+
+        @if (profile.city) {
+          <div class="profile-info__sec">
+            <span class="h6">Город</span>
+            <span class="medium-text">{{ profile.city }}</span>
           </div>
         }
       </div>

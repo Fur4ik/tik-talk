@@ -38,7 +38,7 @@ export class ChatService {
   }
 
   handleWSMessage(message: ChatWSMessage) {
-    console.log(message)
+    // console.log(message)
 
     if (!('action' in message)) return
 

@@ -19,8 +19,8 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   selector: 'app-message-input',
   imports: [ImgUrlPipe, FormsModule],
   templateUrl: './message-input.component.html',
-  standalone: true,
   styleUrl: './message-input.component.scss',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInputComponent {
