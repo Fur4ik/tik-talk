@@ -17,14 +17,13 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   templateUrl: './post-feed.component.html',
   standalone: true,
   styleUrl: './post-feed.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFeedComponent {
   @Input() isMyPageInp!: boolean
   profile = input<Profile>()
 
   route = inject(ActivatedRoute)
-  postService = inject(PostService)
   globalStoreService = inject(GlobalStoreService)
   store = inject(Store)
 
@@ -63,6 +62,6 @@ export class PostFeedComponent {
       authorId: this.me$!.id,
       postId: postId
     }
-    firstValueFrom(this.postService.createComment(commentDTO))
+    this.store.dispatch(postsActions.createComment({ payload: commentDTO }))
   }
 }

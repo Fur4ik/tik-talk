@@ -8,6 +8,8 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   providedIn: 'root'
 })
 export class PostService {
+  id = Math.random() * 100
+
   baseApiUrl = '/yt-course/'
   #http = inject(HttpClient)
   me = inject(GlobalStoreService).me

@@ -1,0 +1,54 @@
+<input
+  [formControl]="innerSearchControl"
+  type="text"
+  class="tt-form-input"
+  (click)="onInputClick()"
+>
+
+@if (suggestion$ | async; as suggestion) {
+  @if (isDropdownOpened()) {
+    <div class="suggestions-dropdown" >
+      @for (suggest of suggestion; track suggest) {
+        <button
+          (click)="onSuggestion(suggest)"
+          class="regular-text suggest-btn">
+          {{ suggest.value }}
+        </button>
+      }
+    </div>
+  }
+}
+
+<div class="address-container" [formGroup]="addressForm" >
+  <label class="medium-text tt-form-label">
+    Город
+    <input
+      formControlName="city"
+      type="text" class="tt-form-input maxi-input"
+    >
+  </label>
+
+  <label class="medium-text tt-form-label">
+    Улица
+    <input
+      formControlName="street"
+      type="text" class="tt-form-input maxi-input"
+    >
+  </label>
+
+  <label class="medium-text tt-form-label mini-input">
+    Дом
+    <input
+      formControlName="building"
+      type="text" class="tt-form-input mini-input"
+    >
+  </label>
+
+  <label class="medium-text tt-form-label mini-input">
+    Квартира
+    <input
+      formControlName="apartment"
+      type="text" class="tt-form-input mini-input"
+    >
+  </label>
+</div>

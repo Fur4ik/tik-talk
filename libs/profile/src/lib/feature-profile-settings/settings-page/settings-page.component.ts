@@ -1,27 +1,28 @@
-import { ChangeDetectionStrategy, Component, effect, inject, ViewChild } from '@angular/core'
+import { ChangeDetectionStrategy, Component, effect, forwardRef, inject, ViewChild } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms'
 import { ProfileService } from '../../data'
 import { firstValueFrom } from 'rxjs'
 import { AvatarUploadComponent, ProfileInfoComponent } from '../../ui'
 import { Router } from '@angular/router'
-import { toObservable } from '@angular/core/rxjs-interop'
-import { AsyncPipe, NgForOf } from '@angular/common'
 import { AuthService } from '@tt/auth'
+import { GlobalStoreService } from '@tt/data-access/global-store'
+import { AddressInputComponent, StackControlComponent } from '@tt/common-ui'
 
 @Component({
   selector: 'app-settings-page',
-  imports: [ReactiveFormsModule, AvatarUploadComponent, AsyncPipe, ProfileInfoComponent, NgForOf],
+  imports: [ReactiveFormsModule, AvatarUploadComponent, ProfileInfoComponent, StackControlComponent, AddressInputComponent],
   templateUrl: './settings-page.component.html',
-  standalone: true,
   styleUrl: './settings-page.component.scss',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPageComponent {
   profileService = inject(ProfileService)
   authService = inject(AuthService)
   router = inject(Router)
+  #globalStorageService = inject(GlobalStoreService)
 
-  profile$ = toObservable(this.profileService.me)
+  profile = this.#globalStorageService.me
 
   @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent
 
@@ -32,15 +33,16 @@ export class SettingsPageComponent {
     lastName: [''],
     username: [{ value: '', disabled: true }, Validators.required],
     description: [''],
-    stack: ['']
+    stack: [''],
+    // stack: [{value: '', disabled: true }],
+    city: [''],
   })
 
   constructor() {
     effect(() => {
       //@ts-ignore
       this.form.patchValue({
-        ...this.profileService.me(),
-        stack: this.mergeStack(this.profileService.me()?.stack)
+        ...this.profile(),
       })
     })
   }
@@ -51,34 +53,20 @@ export class SettingsPageComponent {
 
     if (this.form.invalid) return
 
-    if (this.avatarUploader.avatar) firstValueFrom(this.profileService.uploadAvatar(this.avatarUploader.avatar))
-
+    if (this.avatarUploader.avatar) {
+      firstValueFrom(this.profileService.uploadAvatar(this.avatarUploader.avatar))
+    }
     firstValueFrom(
       //@ts-ignore
       this.profileService.patchProfile({
         ...this.form.value,
-        stack: this.splitStack(this.form.value.stack)
       })
     )
   }
 
-  splitStack(stack: string | string[] | null | undefined): string[] {
-    if (!stack) return []
-    if (Array.isArray(stack)) return stack
-
-    return stack.split(',')
-  }
-
-  mergeStack(stack: string | string[] | null | undefined): string {
-    if (!stack) return ''
-    if (Array.isArray(stack)) return stack.join(',')
-
-    return stack
-  }
-
   onCancel() {
     // @ts-ignore
-    this.form.patchValue(this.profileService.me())
+    this.form.patchValue(this.profile())
   }
 
   onLogout() {

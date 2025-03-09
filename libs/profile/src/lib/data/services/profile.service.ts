@@ -40,6 +40,11 @@ export class ProfileService {
 
   patchProfile(profile: Partial<Profile>) {
     return this.http.patch<Profile>(`${this.baseApiUrl}account/me`, profile)
+      .pipe(
+        tap(value => {
+          this.#globalStoreService.me.set(value)
+        })
+      )
   }
 
   uploadAvatar(file: File) {
@@ -47,6 +52,11 @@ export class ProfileService {
     fd.append('image', file)
 
     return this.http.post<Profile>(`${this.baseApiUrl}account/upload_image`, fd)
+      .pipe(
+        tap(value =>
+          this.#globalStoreService.me.set(value)
+        )
+      )
   }
 
   filterProfile(params: Record<string, any>) {

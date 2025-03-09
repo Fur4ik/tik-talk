@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthService } from '@tt/auth'
+import { TtInputComponent } from '@tt/common-ui'
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TtInputComponent],
   templateUrl: './login-page.component.html',
-  standalone: true,
   styleUrl: './login-page.component.scss',
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent {
@@ -30,6 +31,4 @@ export class LoginPageComponent {
       })
     }
   }
-
-  protected readonly window = window
 }

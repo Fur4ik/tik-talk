@@ -3,7 +3,7 @@ import {
   Component,
   effect,
   ElementRef,
-  EventEmitter,
+  EventEmitter, Host,
   HostBinding,
   HostListener,
   inject,
@@ -21,7 +21,7 @@ import { GlobalStoreService } from '@tt/data-access/global-store'
   templateUrl: './message-input.component.html',
   standalone: true,
   styleUrl: './message-input.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageInputComponent {
   r2 = inject(Renderer2)

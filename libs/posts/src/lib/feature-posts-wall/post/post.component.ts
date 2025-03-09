@@ -9,7 +9,7 @@ import {
   Output,
   signal
 } from '@angular/core'
-import { Post, postsActions, selectComment } from '../../data'
+import { Post, postsActions, PostService, selectComment } from '../../data'
 import { CommentComponent } from '../../ui'
 import { ImgUrlPipe, MessageInputComponent, PopupDirective, TimeAgoPipe } from '@tt/common-ui'
 import { Store } from '@ngrx/store'

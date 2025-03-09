@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core'
-import { DndDirective } from '@tt/common-ui'
+import { Component, computed, effect, inject, input, OnDestroy, OnInit, signal } from '@angular/core'
+import { DndDirective, ImgUrlPipe } from '@tt/common-ui'
+import { GlobalStoreService } from '@tt/data-access/global-store'
+import { Profile } from '@tt/data-access/profile'
 
 @Component({
   selector: 'app-avatar-upload',
@@ -9,7 +11,14 @@ import { DndDirective } from '@tt/common-ui'
   styleUrl: './avatar-upload.component.scss',
 })
 export class AvatarUploadComponent {
-  preview = signal<string>('/assets/img/placeholder-avatar.png')
+
+  #globalStorageService = inject(GlobalStoreService)
+
+  profileAvatar = this.#globalStorageService.me()?.avatarUrl ?
+    `/yt-course/${this.#globalStorageService.me()?.avatarUrl}` :
+    '/assets/img/placeholder-avatar.png'
+
+  preview = signal<string>(this.profileAvatar)
 
   avatar: File | null = null
 

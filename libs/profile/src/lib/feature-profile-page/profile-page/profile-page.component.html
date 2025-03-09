@@ -27,7 +27,10 @@
     </div>
 
     <div class="profile-main">
-      <app-post-feed [isMyPageInp]="isMyPage()" [profile]="profile" />
+      <app-post-feed
+        test
+        [isMyPageInp]="isMyPage()"
+        [profile]="profile" />
 
       <div class="profile-info" [class.fixed-info]="isScrollThreshold()">
         <div class="profile-info__sec">

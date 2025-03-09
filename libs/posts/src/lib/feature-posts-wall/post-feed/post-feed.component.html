@@ -2,6 +2,7 @@
   <app-message-input (created)="onCreatePost($event)" />
 }
 
+
 @if (activeProfilePosts$) {
   @for (post of activeProfilePosts$ | async; track post.id) {
     <app-post

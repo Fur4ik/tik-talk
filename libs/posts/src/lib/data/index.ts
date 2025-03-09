@@ -5,5 +5,5 @@ export * from './store'
 export{
   type Post,
   PostService,
-  type PostComment
+  type PostComment,
 }

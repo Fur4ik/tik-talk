@@ -1,0 +1,43 @@
+.stack-control{
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+  width: 100%;
+}
+
+.stack-tag{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+.stack-tag__btn{
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.stack-ghost-input{
+  color: var(--light-color);
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  padding: 12px 0;
+}
+
+:host.disabled{
+  .stack-control{
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
